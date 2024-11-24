@@ -1,12 +1,14 @@
-import datetime
+import datetime, extractlist
 
 class Material:
 
-    def __init__(self, material_id, name, author, priority_percentage, next_date, a_factor):
+    def __init__(self, material_id, type, name, author, path, priority_percentage, next_date, a_factor):
         self.id = material_id
         self.bookmark = ""
+        self.type = type
         self.name = name
         self.author = author
+        self.path = path
         self.priority_percentage = priority_percentage
     #TODO:    self.priority_num 
     # Not sure if we need a priority_num. It's just its index in priority queue.
@@ -14,6 +16,7 @@ class Material:
         self.repetition_interval = 1
         self.a_factor = a_factor
         self.extracts = []
+        self.extract_list =""
         # Change: is better to save the date, not the resting days
         # self.days_to_next = 1
         # self.days_since_last = 0
@@ -62,3 +65,8 @@ class Material:
 
     # def add_extract(self, extract):
     #     self.extracts.append(extract)
+
+    def create_extract_list (self):
+        self.extract_list = extractlist.Extract_list(self)
+        
+    

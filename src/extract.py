@@ -6,4 +6,5 @@ class Extract:
         self.extract_id = extract_id
         self.material = material
         self.priority_percentage = material.priority_percentage
+        self.path =""
 

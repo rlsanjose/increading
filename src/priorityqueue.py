@@ -31,6 +31,11 @@ class Priority_queue:
                     indexes_of_equal_lowest_percentage.append(i)
 
             for item in indexes_of_equal_lowest_percentage :
-                ordered_list.append(unordered_list.pop(item))
+                ordered_list.append(unordered_list[item])
+            
+            indexes_of_equal_lowest_percentage.reverse()
+
+            for item in indexes_of_equal_lowest_percentage :
+                unordered_list.pop(item)
 
         self.priority_list = ordered_list
