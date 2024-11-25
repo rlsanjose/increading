@@ -6,13 +6,13 @@ A simple CLI incremental reading app.
 
 - [X] Add type to Materials (pdf, web, epub...)
 - [X] Add extract list to materials (has to be another object)
-- [ ] Replace loops with min function
+- [X] Replace loops with min function. Better: use sort function
 - [X] Add functionality to add extracts during session
     - [X] For now, I can hard-code it to work with vim (look later vim
     sessions...). Later, we will let the user decide.
 
 - [ ] Create path variables for extract_list and extract
-    - [ ] Functionality: uset select Path for their extracts
+    - [ ] Functionality: use select Path for their extracts
     - The estructure should be like:
 ```
 users-selected-path/

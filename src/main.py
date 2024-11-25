@@ -1,5 +1,6 @@
 import priorityqueue, dailyqueue, material, extract, datetime, os
 
+os.system('cls|clear')
 print("Welcome to increading\n")
 
 actual_date = datetime.date.today()
@@ -19,7 +20,7 @@ def start_session():
 
     for item in daily_queue.actual_list :
         
-        os.system('clear')
+        os.system('cls|clear')
         while True :
             print(str(daily_queue.current_number + 1) + " / " + str(len(daily_queue.actual_list)))
             print("\n")

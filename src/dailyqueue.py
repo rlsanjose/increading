@@ -1,3 +1,4 @@
+from operator import attrgetter
 import priorityqueue, datetime
 
 class Daily_queue:
@@ -7,33 +8,13 @@ class Daily_queue:
         self.actual_list = []
         self.current_number = 0
 
-    def order_list(unordered_daily) : 
-        ordered_daily = []
-        while True:
-
-            if len(unordered_daily) == 0 :
-                break
-
-            lowest_percentage = unordered_daily[0].priority_percentage
-            indexes_of_equal_lowest_percentage = []
-
-            for i in range(len(unordered_daily)):
-                if unordered_daily[i].priority_percentage < lowest_percentage :
-                    lowest_percentage = unordered_daily[i].priority_percentage
-                    indexes_of_equal_lowest_percentage = []
-                    indexes_of_equal_lowest_percentage.append(i)
-                elif unordered_daily[i].priority_percentage == lowest_percentage:
-                    indexes_of_equal_lowest_percentage.append(i)
-            
-            for item in indexes_of_equal_lowest_percentage :
-                ordered_daily.append(unordered_daily[item])
-
-            indexes_of_equal_lowest_percentage.reverse()
-
-            for item in indexes_of_equal_lowest_percentage :
-                unordered_daily.pop(item)
-
-        return ordered_daily
+    def order_list(sorting_list):
+        
+        if len(sorting_list) == 0 :
+            return
+        
+        sorting_list.sort(key=attrgetter("priority_percentage"))
+        return sorting_list
 
     def create_daily_list(self, priority_queue):
         
