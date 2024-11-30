@@ -2,21 +2,19 @@ from pathlib import Path
 import os
 import material
 import configparser
+import extract
 
 class FileManager :
 
     def __init__(self):
         self.home_dir = Path.home()
         self.user_data_dir = os.path.expanduser("~/.local/share/increading")
+        self.db_path = self.user_data_dir + "/database.sqlite"
         self.user_config_dir = os.path.expanduser("~/.config/increading")
         self.extracts_path = ""
 
     def set_extracts_path(self, absolute_path : str) :
         self.extracts_path = absolute_path
-
-    # TODO: check if the next function actually works. I recently changed
-    # `self.extracts_path.exists()` to `os.path.exists(str)`. The first would
-    # only work with Path object
 
     def extracts_directory_exists(self):
         if self.extracts_path == "" :
@@ -54,8 +52,7 @@ class FileManager :
             return False
 
     def create_singular_directory(self, material : material.Material) -> str:
-        new_rel_path = material.author + "_" + material.name
-        new_rel_path.replace(" ", "-")
+        new_path = material.extracts_dir
         while self.check_singular_directory():
             new_path += "_new"
         self.create_directory(self.extracts_path + "/" + new_path)
@@ -91,6 +88,9 @@ class FileManager :
         config_file_path = self.user_config_dir + "/increading.config"
         return os.path.exists(config_file_path)
 
+    # If config_file is created, then we don't need to check if there is
+    # 'general.extracts_path'
+
     def retrieve_extract_path(self):
         config_file_path = self.user_config_dir + "/increading.config"
         config_file = configparser.ConfigParser()
@@ -98,18 +98,36 @@ class FileManager :
         new_extracts_dir = config_file['general']['extracts_dir']
         self.set_extracts_path(new_extracts_dir)
 
-# TODO: I need this functions: 
-#     - [X](1) create_extract_directory (the general one),
-#     - [X] (2) check if that directory exists, 
-#     - [X] (3)&(4) the same with the individual extract folders and subfolders,
-#     - [X] (5)&(6) the same with the .local/share directory, 
-#     - [ ] (7) maybe even check if a database exist, 
-#     - [X] (8)&(9) checking and creating a config file where we'll save where
-#       the database is (just in case) and where the extract directory is.
-#     - [ ] (10) create a file for extract_list
-#     - [ ] (11) create a file for singular_extract
+    def check_db(self):
+        return os.path.exists(self.db_path)
 
+    def create_singular_extract_file(self, extract : extract.Extract):
+        new_path = self.extracts_path + "/" + extract.path
+        f = open(new_path, 'x')
+        f.close()
 
-# Take into account: make a general function (check_or_create_dir()) who then
-# can serve to create the different directories, whose paths can be saved as
-# variables in this module.
+    def create_extract_list_file(self, material : material.Material):
+        new_path = self.extracts_path + "/" + material.extracts_file_path
+        first_line = "# " + material.name + ", " + material.author
+        try:
+            create_file = open(new_path, 'x')
+            create_file.close()
+        except Exception:
+            pass
+        with open(new_path, 'a') as f:
+            f.write(first_line)
+            f.write("\n")
+
+    def concat_extract_to_list(self, material : material.Material, extract : extract.Extract):
+        extract_list_path = self.extracts_path + "/" + material.extracts_file_path
+        singular_extract_path = self.extracts_path + "/" + extract.path
+        file2 = open(singular_extract_path, 'r')
+        text = file2.read()
+        file2.close()
+        file1 = open(extract_list_path, 'a')
+        file1.write("\n" + "---" + "\n")
+        file1.write(text)
+        file1.close()
+
+# TODO: I should create a method to get the extract list whole path, to be able
+# to reuse it. The same with singular extracts.

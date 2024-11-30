@@ -1,6 +1,9 @@
 # The extract_list is a file with all the extracts, as they are written while reading.
 # Not to be confused with the series of single extract files that are being processed.
 
+# TODO: Need to rethink this. Maybe the extract list is just a parameter and
+# some functions inside of material class.
+
 import os
 
 
@@ -18,7 +21,7 @@ class Extract_list :
 
     #TODO
     def create_new_dir(self):
-        os.mkdir(path + self.dir_name)
+        os.mkdir(self.path + self.dir_name)
 
 
     def create_new_file(self):
