@@ -15,6 +15,8 @@ class Material:
     # Doesn't even need that field in the db
         self.repetition_interval = 1
         self.a_factor = a_factor
+        self.extracts_dir = (self.author + "_" + self.name).replace(" ", "-")
+        self.extracts_file_path = self.extracts_dir + "/" + self.extracts_dir + ".md"
         self.extracts = []
         self.extract_list =""
         # Change: is better to save the date, not the resting days
@@ -70,3 +72,8 @@ class Material:
         self.extract_list = extractlist.Extract_list(self)
         
     
+# TODO: you create the extract from the material, but then you create the file
+# from the extract
+
+# TODO: from here, one should call filemanager.create_singular_directory(),
+# which returns the new relative path

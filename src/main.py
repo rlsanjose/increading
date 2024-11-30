@@ -17,7 +17,6 @@ def start_session():
     daily_queue.create_daily_list(priority_queue)
     daily_queue.make_actual_list()
 
-
     for item in daily_queue.actual_list :
         
         os.system('cls|clear')
@@ -137,4 +136,3 @@ while True:
             break
         case _:
             a = input("\nError: invalid. Press enter\n")
-
