@@ -15,6 +15,7 @@ class Material:
     # Doesn't even need that field in the db
         self.repetition_interval = 1
         self.a_factor = a_factor
+        self.extracts_dir = ""
         self.extracts = []
         self.extract_list =""
         # Change: is better to save the date, not the resting days
