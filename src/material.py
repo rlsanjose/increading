@@ -76,4 +76,5 @@ class Material:
 # from the extract
 
 # TODO: from here, one should call filemanager.create_singular_directory(),
-# which returns the new relative path
+# which returns the new relative path (which is necessary in case it already
+# existed a file with the same name)
