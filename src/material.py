@@ -2,10 +2,9 @@ import datetime, extractlist
 
 class Material:
 
-    def __init__(self, material_id, type, name, author, path, priority_percentage, next_date, a_factor):
+    def __init__(self, material_id, name, author, path, priority_percentage, next_date):
         self.id = material_id
         self.bookmark = ""
-        self.type = type
         self.name = name
         self.author = author
         self.path = path
@@ -14,15 +13,16 @@ class Material:
     # Not sure if we need a priority_num. It's just its index in priority queue.
     # Doesn't even need that field in the db
         self.repetition_interval = 1
-        self.a_factor = a_factor
         self.extracts_dir = (self.author + "_" + self.name).replace(" ", "-")
         self.extracts_file_path = self.extracts_dir + "/" + self.extracts_dir + ".md"
         self.extracts = []
-        self.extract_list =""
+        self.date_of_next = next_date
+        self.is_ended = 0
         # Change: is better to save the date, not the resting days
         # self.days_to_next = 1
         # self.days_since_last = 0
-        self.date_of_next = next_date
+        # self.a_factor = a_factor
+        # self.type = type
 
     def set_bookmark(self, bookmark):
         self.bookmark = bookmark
@@ -68,10 +68,6 @@ class Material:
     # def add_extract(self, extract):
     #     self.extracts.append(extract)
 
-    def create_extract_list (self):
-        self.extract_list = extractlist.Extract_list(self)
-        
-    
 # TODO: you create the extract from the material, but then you create the file
 # from the extract
 
