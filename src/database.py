@@ -46,8 +46,7 @@ class Database:
         con.commit()
         con.close()
     
-    # TODO: retrieve lastrowid. Can be here or in an exclusive function
-
+    # Retrieving lastrowid
     def insert_material(self, material : material.Material) -> int:
         con, cur = self.connect_database()
         cur.execute("""INSERT INTO material VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);""", 
@@ -56,8 +55,10 @@ class Database:
                      material.date_of_next, material.repetition_interval, 
                      material.priority_percentage, material.is_ended))
         
+        lastrowid = cur.lastrowid
         con.commit()
         con.close()
+        return lastrowid
     
     def read_all_materials(self) :
         con, cur = self.connect_database()
@@ -89,6 +90,21 @@ class Database:
         con.close()
         return materials
 
+    # Remember to asign material_id to extract when creating extract object
+    # Returning lastrowid
+    def insert_extract(self, extract : extract.Extract) -> int:
+        con, cur = self.connect_database()
+        cur.execute("""INSERT INTO extract VALUES (NULL, ?, ?, ?, ?, ?)""", 
+                                                  (extract.material_id,
+                                                   extract.path,
+                                                   extract.next_repetition_date,
+                                                   extract.number_of_repetitions,
+                                                   extract.days_between_repetitions))
+        lastrowid = cur.lastrowid
+        con.commit()
+        con.close()
+        return lastrowid
+
         
     def read_all_extracts(self) :
         con, cur = self.connect_database()
@@ -118,13 +134,10 @@ class Database:
         con.close()
         return extracts
 
-   
 
-   
-   
     # TODO:
     # - [X] insert_material()
-    # - [ ] insert_extract()
+    # - [X] insert_extract()
     # - [X] read_material_from_name_or_author()
     # - [X] read_extract_from_id()
     # - [X] read_all_materials()
@@ -136,6 +149,7 @@ class Database:
     # - [ ] update_extract_from_id()
     # - [ ] delete_material()
     # - [ ] delete extract()
+    # - [X] retrieve_lastrowid()
 
     
     # TODO:
