@@ -19,18 +19,25 @@ class Database:
 
         # Will use date as text (ISO 8601 format)
 
-        # Don't need to declare primary key (= alias for ROWID)
+        # TODO: I'm changing some parameters, I need to readjust the next ones
 
         cursor.execute("""CREATE TABLE IF NOT EXISTS material(
                        material_id INTEGER PRIMARY KEY,
                        name TEXT,
                        author TEXT,
-                       relative_path TEXT,
-                       extract_list_path TEXT,
+                       path_to_material TEXT,
                        bookmark TEXT,
-                       next_repetition_date TEXT,
-                       frequency INTEGER,
+
+                       extracts_dir TEXT,
+                       extract_list_path TEXT,
+
+                       review_date TEXT,
+                       due_date TEXT,
+                       number_of_reviews INTEGER,
+                       interval_to_next_review INTEGER,
+                       a_factor REAL,
                        priority INTEGER,
+
                        is_ended INTEGER);""")
         
 
@@ -38,21 +45,27 @@ class Database:
                        extract_id INTEGER PRIMARY KEY,
                        material_id INTEGER,
                        relative_path TEXT,
-                       next_repetition_date TEXT,
-                       n_of_repetitions INTEGER,
-                       days_between_repetitions INTEGER,
+
+                       review_date TEXT,
+                       due_date TEXT,
+                       number_of_reviews INTEGER,
+                       interval_to_next_review INTEGER,
+                       a_factor REAL,
+                       priority INTEGER,
+
                        FOREIGN KEY (material_id) REFERENCES material(material_id));""")
             
         con.commit()
         con.close()
     
+    # TODO: change values according to new parameters
     # Retrieving lastrowid
     def insert_material(self, material : material.Material) -> int:
         con, cur = self.connect_database()
         cur.execute("""INSERT INTO material VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);""", 
                     (material.name, material.author, material.path, 
                      material.extracts_file_path, material.bookmark, 
-                     material.date_of_next, material.repetition_interval, 
+                     material.due_date, material.interval_to_next_review, 
                      material.priority_percentage, material.is_ended))
         
         lastrowid = cur.lastrowid
@@ -74,6 +87,7 @@ class Database:
         con.close()
         return single_material
 
+    # TODO: change values according to new parameters
     # Note that this_date needs to be a string in ISO format
     def read_materials_from_date(self, this_date):
         con, cur = self.connect_database()
@@ -89,9 +103,18 @@ class Database:
         materials = cur.fetchall()
         con.close()
         return materials
+        
+    # TODO: end
+    
+    def update_material(self, material : material.Material):
+        con, cur = self.connect_database()
+        cur.execute("""UPDATE material 
+                        SET 
+                    WHERE""")
 
     # Remember to asign material_id to extract when creating extract object
     # Returning lastrowid
+    # TODO: change values according to new parameters
     def insert_extract(self, extract : extract.Extract) -> int:
         con, cur = self.connect_database()
         cur.execute("""INSERT INTO extract VALUES (NULL, ?, ?, ?, ?, ?)""", 
@@ -127,6 +150,7 @@ class Database:
         con.close()
         return extracts
 
+    # TODO: change values according to new parameters
     def read_extracts_from_date(self, this_date):
         con, cur = self.connect_database()
         cur.execute("SELECT * FROM extract WHERE next_repetition_date=?", (this_date,))
@@ -145,20 +169,18 @@ class Database:
     # - [X] read_extracts_from_material()
     # - [X] read_all_materials_from_date()
     # - [X] read_all_extracts_from_date()
-    # - [ ] update_material_from_id()
-    # - [ ] update_extract_from_id()
+    # - [ ] update_material_bookmark()
+    # - [ ] update_material_next_date()
+    # - [ ] update_material_priority()
+    # - [ ] update_material_is_ended()
+    # - [ ] update_extract_number_of_repetitions()
+    # - [ ] update_extract_next_repetition()
     # - [ ] delete_material()
     # - [ ] delete extract()
     # - [X] retrieve_lastrowid()
+    # - [ ] test!!
 
     
-    # TODO:
-    # When adding an item, I must retrieve its id (=rowid). To do this, use
-    # cursor.lastrowid(), which returns the rowid of the last modified row
-        
-
-
-        
 fm = file_manager.FileManager()
 db = Database(fm)
 db.connect_database()
@@ -169,5 +191,3 @@ mat = material.Material(0, "nombre", "autor", "path", 34, "tt")
 
 db.insert_material(mat)
 print(db.read_all_materials())
-
-
