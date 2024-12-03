@@ -19,8 +19,6 @@ class Database:
 
         # Will use date as text (ISO 8601 format)
 
-        # TODO: I'm changing some parameters, I need to readjust the next ones
-
         cursor.execute("""CREATE TABLE IF NOT EXISTS material(
                        material_id INTEGER PRIMARY KEY,
                        name TEXT,
@@ -44,6 +42,7 @@ class Database:
         cursor.execute("""CREATE TABLE IF NOT EXISTS extract(
                        extract_id INTEGER PRIMARY KEY,
                        material_id INTEGER,
+                       bookmark TEXT,
                        relative_path TEXT,
 
                        review_date TEXT,
@@ -58,15 +57,16 @@ class Database:
         con.commit()
         con.close()
     
-    # TODO: change values according to new parameters
     # Retrieving lastrowid
     def insert_material(self, material : material.Material) -> int:
         con, cur = self.connect_database()
-        cur.execute("""INSERT INTO material VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);""", 
-                    (material.name, material.author, material.path, 
-                     material.extracts_file_path, material.bookmark, 
-                     material.due_date, material.interval_to_next_review, 
-                     material.priority_percentage, material.is_ended))
+        cur.execute("""INSERT INTO material VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);""", 
+                    (material.name, material.author, material.path,
+                    material.bookmark, material.extracts_dir,
+                    material.extracts_file_path, material.review_date,
+                    material.due_date, material.number_of_reviews,
+                    material.interval_to_next_review, material.a_factor, 
+                    material.priority_percentage, material.is_ended))
         
         lastrowid = cur.lastrowid
         con.commit()
@@ -87,11 +87,10 @@ class Database:
         con.close()
         return single_material
 
-    # TODO: change values according to new parameters
     # Note that this_date needs to be a string in ISO format
     def read_materials_from_date(self, this_date):
         con, cur = self.connect_database()
-        cur.execute("SELECT * FROM material WHERE next_repetition_date=?", (this_date,))
+        cur.execute("SELECT * FROM material WHERE due_date=?", (this_date,))
         materials = cur.fetchall()
         con.close()
         return materials
@@ -114,15 +113,18 @@ class Database:
 
     # Remember to asign material_id to extract when creating extract object
     # Returning lastrowid
-    # TODO: change values according to new parameters
     def insert_extract(self, extract : extract.Extract) -> int:
         con, cur = self.connect_database()
-        cur.execute("""INSERT INTO extract VALUES (NULL, ?, ?, ?, ?, ?)""", 
-                                                  (extract.material_id,
-                                                   extract.path,
-                                                   extract.next_repetition_date,
-                                                   extract.number_of_repetitions,
-                                                   extract.days_between_repetitions))
+        cur.execute("""INSERT INTO extract VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", 
+                    (extract.material_id,
+                    extract.bookmark,
+                    extract.path,
+                    extract.review_date,
+                    extract.due_date,
+                    extract.number_of_reviews,
+                    extract.interval_to_next_review,
+                    extract.a_factor,
+                    extract.priority_percentage))
         lastrowid = cur.lastrowid
         con.commit()
         con.close()
@@ -138,7 +140,7 @@ class Database:
     
     def read_extract_from_id(self, extract : extract.Extract) :
         con, cur = self.connect_database()
-        cur.execute("SELECT * FROM extract WHERE id=?", extract.extract_id)
+        cur.execute("SELECT * FROM extract WHERE extract_id=?", extract.extract_id)
         single_extract = cur.fetchone()
         con.close()
         return single_extract
@@ -150,14 +152,12 @@ class Database:
         con.close()
         return extracts
 
-    # TODO: change values according to new parameters
     def read_extracts_from_date(self, this_date):
         con, cur = self.connect_database()
-        cur.execute("SELECT * FROM extract WHERE next_repetition_date=?", (this_date,))
+        cur.execute("SELECT * FROM extract WHERE due_date=?", (this_date,))
         extracts = cur.fetchall()
         con.close()
         return extracts
-
 
     # TODO:
     # - [X] insert_material()
@@ -175,6 +175,8 @@ class Database:
     # - [ ] update_material_is_ended()
     # - [ ] update_extract_number_of_repetitions()
     # - [ ] update_extract_next_repetition()
+    # - Need some functions to execute after one review (update dates,
+    # intervals)
     # - [ ] delete_material()
     # - [ ] delete extract()
     # - [X] retrieve_lastrowid()
