@@ -103,13 +103,52 @@ class Database:
         con.close()
         return materials
         
-    # TODO: end
+    # First, change the bookmark in the material object. Then, update the database
+    # TODO: Maybe add error cheking or returning confirmation?
     
-    def update_material(self, material : material.Material):
+    def update_material_bookmark(self, material : material.Material):
         con, cur = self.connect_database()
         cur.execute("""UPDATE material 
-                        SET 
-                    WHERE""")
+                        SET material.bookmark = ?
+                    WHERE material.material_id = ? ;""", 
+                    (material.bookmark, material.id))
+        con.commit()
+        con.close()
+        return
+
+    # TODO: Is due date the next date? I think so.
+
+    def update_material_review_due_dates(self, material : material.Material):
+        con, cur = self.connect_database()
+        cur.execute("""UPDATE material 
+                    SET material.due_date = ?,
+                    material.review_date = ?
+                    WHERE material.material_id = ? ;""", 
+                    (material.due_date, material.review_date, material.id))
+        con.commit()
+        con.close()
+        return
+    
+    def update_material_priority(self, material : material.Material):
+        con, cur = self.connect_database()
+        cur.execute("""UPDATE material
+                    SET material.priority = ?
+                    WHERE material.material_id = ? ;""",
+                    (material.priority_percentage, material.id))
+        con.commit()
+        con.close()
+        return
+
+    def update_material_is_ended(self, material : material.Material):
+        con, cur = self.connect_database()
+        cur.execute("""UPDATE material
+                    SET material.is_ended = ?
+                    WHERE material.material_id = ? ;""",
+                    (material.is_ended, material.id))
+        con.commit()
+        con.close()
+        return
+
 
     # Remember to asign material_id to extract when creating extract object
     # Returning lastrowid
@@ -169,12 +208,13 @@ class Database:
     # - [X] read_extracts_from_material()
     # - [X] read_all_materials_from_date()
     # - [X] read_all_extracts_from_date()
-    # - [ ] update_material_bookmark()
-    # - [ ] update_material_next_date()
-    # - [ ] update_material_priority()
-    # - [ ] update_material_is_ended()
+    # - [X] update_material_bookmark()
+    # - [X] update_material_review_and_due_dates()
+    # - [X] update_material_priority()
+    # - [X] update_material_is_ended()
     # - [ ] update_extract_number_of_repetitions()
-    # - [ ] update_extract_next_repetition()
+    # - [ ] update_extract_review_and_due_dates()
+    # - [ ] update_extract_priority()
     # - Need some functions to execute after one review (update dates,
     # intervals)
     # - [ ] delete_material()
