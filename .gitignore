@@ -1,3 +1,4 @@
 # ignore __pycache__ dir
 
 src/__pycache__/
+new.db

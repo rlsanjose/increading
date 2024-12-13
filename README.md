@@ -2,7 +2,7 @@
 
 A simple CLI incremental reading app.
 
-## TODO
+## TODO: basic functionality
 
 - [X] Add type to Materials (pdf, web, epub...)
 - [X] Add extract list to materials (has to be another object)
@@ -11,16 +11,14 @@ A simple CLI incremental reading app.
     - [X] For now, I can hard-code it to work with vim (look later vim
     sessions...). Later, we will let the user decide.
 
-- [ ] Create path variables for extract_list and extract
-    - [ ] Path for the database: ~/.local/share/increading/db.
-    - [ ] Path for the articles?  Where should this be? Maybe just as a value in
-    this object
-    - [ ] Path for the extracts.
-        - [ ] Also, the path where this config is going to be saved. Don't
+- [X] Create path variables for extract_list and extract
+    - [X] Path for the database: ~/.local/share/increading/database.sqlite
+    - [X] Path for the extracts.
+        - [X] Also, the path where this config is going to be saved. Don't
         really know where should it be, maybe
             - ~/.config/increading
             - Or I can reuse ~/.local/share/increading
-        - [ ] Functionality: use select Path for their extracts
+        - [X] Functionality: use select Path for their extracts
         - The estructure should be like:
 ```
 users-selected-path/
@@ -31,26 +29,33 @@ users-selected-path/
 |--- extracts_from__book_2/
 ```
 
-- [ ] Add functionality to open files (materials) during session
-    - [ ] Maybe a configuration menu at the beginning in which you can specify the programms to open different types of materials, even with the commands.
-- [ ] Add functionality to add bookmark at the end
-- [ ] Make independent extracts from "extract list"
-    - [ ] Markdown separated by "---"
-- [ ] Add extract spaced repetition
 - [ ] Sqlite database
-- ...
-- [ ] Possibility to change frequency to materials (for instance, lapses of 2 days)
-
-
-- [ ] Be able to create different priority queues
-
-
-- [ ] Exporting data and making backups
 
 - [ ] Separate completely between code and interface, so it is easier to have
   multiple/modular interfaces
-    - I'm thinking about it as the next: the interface should be on its own class or module. The functions should be well specified. It should be as easy as calling those functions from an external module to control this things.
-    - [ ] Design simple interface. Use `click`?
+    - [ ] Modify material.py and extract.py
+        - [ ] Need functions for updating its values and calling database methods
+    - [ ] Create an interface class
+
+- [ ] Add functionality to open files (materials) during session
+    - [ ] Maybe a configuration menu at the beginning in which you can specify the programms to open different types of materials, even with the commands.
+- [ ] Add functionality to add bookmark at the end
+- [ ] Make independent extracts from "extract list" (_au contraire_: append new extracts to extract list)
+    - [X] Markdown separated by "---" (the part in file manager is done)
+- [ ] Add spaced repetition to extracts
+- ...
+
+## TODO: possible extra functionalities
+
+- [ ] Possibility to change frequency to materials (for instance, lapses of 2 days)
+
+- [ ] Possibility to simply go into the app to add a new extract (imagine you see something and open the app just to record it)
+    - [ ] Add a new material and a new extract
+    - [ ] Add a new extract to an existing material
+
+- [ ] Be able to create different priority queues
+
+- [ ] Exporting data and making backups
 
 - [ ] Make Linux package 
 - [ ] Make windows executable
