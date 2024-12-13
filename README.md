@@ -29,7 +29,7 @@ users-selected-path/
 |--- extracts_from__book_2/
 ```
 
-- [ ] Sqlite database
+- [X] Sqlite database
 
 - [ ] Separate completely between code and interface, so it is easier to have
   multiple/modular interfaces
