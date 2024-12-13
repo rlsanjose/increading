@@ -143,7 +143,7 @@ class Database:
         con, cur = self.connect_database()
         cur.execute("""UPDATE material
                     SET material.number_of_reviews = ?
-                    WHERE material.material_id = ?""",
+                    WHERE material.material_id = ? ;""",
                     (material.number_of_reviews, material.id))
         con.commit()
         con.close()
@@ -153,7 +153,7 @@ class Database:
         con, cur = self.connect_database()
         cur.execute("""UPDATE material
                     SET material.interval_to_next_review = ?
-                    WHERE material.material_id = ?""",
+                    WHERE material.material_id = ? ;""",
                     (material.interval_to_next_review, material.id))
         con.commit()
         con.close()
@@ -163,7 +163,7 @@ class Database:
         con, cur = self.connect_database()
         cur.execute("""UPDATE material
                     SET material.a_factor = ?
-                    WHERE material.material_id = ?""",
+                    WHERE material.material_id = ? ;""",
                     (material.a_factor, material.id))
         con.commit()
         con.close()
@@ -232,7 +232,7 @@ class Database:
         con, cur = self.connect_database()
         cur.execute("""UPDATE extract
                     SET extract.number_of_reviews = ?
-                    WHERE extract.extract_id = ?""",
+                    WHERE extract.extract_id = ? ;""",
                     (extract.number_of_reviews, extract.extract_id))
         con.commit()
         con.close()
@@ -243,7 +243,7 @@ class Database:
         cur.execute("""UPDATE extract
                     SET extract.review_date = ?,
                     extract.due_date = ?
-                    WHERE extract.extract_id = ?""",
+                    WHERE extract.extract_id = ? ;""",
                     (extract.review_date, extract.due_date, extract.extract_id))
         con.commit()
         con.close()
@@ -253,11 +253,32 @@ class Database:
         con, cur = self.connect_database()
         cur.execute("""UPDATE extract
                     SET extract.priority = ?
-                    WHERE extract.extract_id = ?""",
+                    WHERE extract.extract_id = ? ;""",
                     (extract.priority_percentage, extract.extract_id))
         con.commit()
         con.close()
         return
+
+    def update_extract_interval_to_next_review(self, extract : extract.Extract):
+        con, cur = self.connect_database()
+        cur.execute("""UPDATE extract
+                    SET extract.interval_to_next_review = ?
+                    WHERE extract.extract_id = ? ;""",
+                    (extract.interval_to_next_review, extract.extract_id))
+        con.commit()
+        con.close()
+        return
+
+    def update_extract_a_factor(self, extract : extract.Extract):
+        con, cur = self.connect_database()
+        cur.execute("""UPDATE extract
+                    SET extract.a_factor = ? 
+                    WHERE extract.extract_id = ? ;""",
+                    (extract.a_factor, extract.extract_id))
+        con.commit()
+        con.close()
+        return
+
 
 
     # TODO:
@@ -280,8 +301,8 @@ class Database:
     # - [X] update_material_number_of_reviews()
     # - [X] update_material_interval_to_next_review()
     # - [X] update_material_a_factor()
-    # - [ ] update_extract_interval_to_next_review()
-    # - [ ] update_extract_a_factor()
+    # - [X] update_extract_interval_to_next_review()
+    # - [X] update_extract_a_factor()
     # - [ ] delete_material()
     # - [ ] delete extract()
     # - [X] retrieve_lastrowid()
