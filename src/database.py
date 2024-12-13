@@ -197,6 +197,38 @@ class Database:
         extracts = cur.fetchall()
         con.close()
         return extracts
+    
+    def update_extract_number_of_repetitions(self, extract : extract.Extract):
+        con, cur = self.connect_database()
+        cur.execute("""UPDATE extract
+                    SET extract.number_of_reviews = ?
+                    WHERE extract.extract_id = ?""",
+                    (extract.number_of_reviews, extract.extract_id))
+        con.commit()
+        con.close()
+        return
+
+    def update_extract_review_and_due_dates(self, extract : extract.Extract):
+        con, cur = self.connect_database()
+        cur.execute("""UPDATE extract
+                    SET extract.review_date = ?,
+                    extract.due_date = ?
+                    WHERE extract.extract_id = ?""",
+                    (extract.review_date, extract.due_date, extract.extract_id))
+        con.commit()
+        con.close()
+        return
+    
+    def update_extract_priority(self, extract : extract.Extract):
+        con, cur = self.connect_database()
+        cur.execute("""UPDATE extract
+                    SET extract.priority = ?
+                    WHERE extract.extract_id = ?""",
+                    (extract.priority_percentage, extract.extract_id))
+        con.commit()
+        con.close()
+        return
+
 
     # TODO:
     # - [X] insert_material()
@@ -212,9 +244,9 @@ class Database:
     # - [X] update_material_review_and_due_dates()
     # - [X] update_material_priority()
     # - [X] update_material_is_ended()
-    # - [ ] update_extract_number_of_repetitions()
-    # - [ ] update_extract_review_and_due_dates()
-    # - [ ] update_extract_priority()
+    # - [X] update_extract_number_of_repetitions()
+    # - [X] update_extract_review_and_due_dates()
+    # - [X] update_extract_priority()
     # - Need some functions to execute after one review (update dates,
     # intervals)
     # - [ ] delete_material()

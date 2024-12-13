@@ -33,6 +33,8 @@ users-selected-path/
 
 - [ ] Separate completely between code and interface, so it is easier to have
   multiple/modular interfaces
+    - [ ] Modify material.py and extract.py
+        - [ ] Need functions for updating its values and calling database methods
     - [ ] Create an interface class
 
 - [ ] Add functionality to open files (materials) during session
