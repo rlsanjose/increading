@@ -15,4 +15,5 @@ class Extract:
         self.interval_to_next_review = interval_to_next_review
         self.a_factor = a_factor
         self.priority_percentage = material.priority_percentage
+        self.is_suspended = 0
 

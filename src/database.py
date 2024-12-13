@@ -51,6 +51,7 @@ class Database:
                        interval_to_next_review INTEGER,
                        a_factor REAL,
                        priority INTEGER,
+                       is_suspended INTEGER,
 
                        FOREIGN KEY (material_id) REFERENCES material(material_id));""")
             
@@ -178,13 +179,22 @@ class Database:
         con.commit()
         con.close()
         return
+    
+    def delete_material(self, material : material.Material):
+        con, cur = self.connect_database()
+        cur.execute("""DELETE FROM material
+                    WHERE material.material_id = ? ; """,
+                    (material.id, ))
+        con.commit()
+        con.close()
+        return
 
 
     # Remember to asign material_id to extract when creating extract object
     # Returning lastrowid
     def insert_extract(self, extract : extract.Extract) -> int:
         con, cur = self.connect_database()
-        cur.execute("""INSERT INTO extract VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", 
+        cur.execute("""INSERT INTO extract VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", 
                     (extract.material_id,
                     extract.bookmark,
                     extract.path,
@@ -193,7 +203,8 @@ class Database:
                     extract.number_of_reviews,
                     extract.interval_to_next_review,
                     extract.a_factor,
-                    extract.priority_percentage))
+                    extract.priority_percentage,
+                    extract.is_suspended))
         lastrowid = cur.lastrowid
         con.commit()
         con.close()
@@ -278,6 +289,33 @@ class Database:
         con.commit()
         con.close()
         return
+    
+    def update_extract_is_suspended(self, extract : extract.Extract):
+        con, cur = self.connect_database()
+        cur.execute("""UPDATE extract
+                    SET extract.is_suspended = ?
+                    WHERE extract.extract_id = ? ;""",
+                    (extract.is_suspended, extract.extract_id))
+        con.commit()
+        con.close()
+        return
+
+    def delete_extract(self, extract : extract.Extract):
+        con, cur = self.connect_database()
+        cur.execute("DELETE FROM extract WHERE extract_id = ?", 
+                    (extract.extract_id, ))
+        con.commit()
+        con.close()
+        return
+
+    def delete_extracts_from_a_material(self, material : material.Material):
+        con, cur = self.connect_database()
+        cur.execute("""DELETE FROM extract
+                    WHERE extract.material_id = ?""",
+                    (material.id, ))
+        con.commit()
+        con.execute()
+        return
 
 
 
@@ -303,19 +341,21 @@ class Database:
     # - [X] update_material_a_factor()
     # - [X] update_extract_interval_to_next_review()
     # - [X] update_extract_a_factor()
-    # - [ ] delete_material()
-    # - [ ] delete extract()
+    # - [X] update_extract_is_suspended()
+    # - [X] delete_material()
+    # - [X] delete extract()
+    # - [X] delete_extract_from_a_material()
     # - [X] retrieve_lastrowid()
     # - [ ] test!!
 
     
-fm = file_manager.FileManager()
-db = Database(fm)
-db.connect_database()
+# fm = file_manager.FileManager()
+# db = Database(fm)
+# db.connect_database()
 
-db.create_tables()
+# db.create_tables()
 
-mat = material.Material(0, "nombre", "autor", "path", 34, "tt")
+# mat = material.Material(0, "nombre", "autor", "path", 34, "tt")
 
-db.insert_material(mat)
-print(db.read_all_materials())
+# db.insert_material(mat)
+# print(db.read_all_materials())
