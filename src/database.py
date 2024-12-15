@@ -78,32 +78,47 @@ class Database:
         con, cur = self.connect_database()
         cur.execute("SELECT * FROM material")
         materials = cur.fetchall()
+        # Parse to a list of materials
+        new_list = []
+        for row in materials :
+            new_material = material.Material(*row)
+            new_list.append(new_material)
         con.close()
-        return materials
+        return new_list
 
-    def read_material_from_id(self, material : material.Material):
+    def read_material_from_id(self, existing_material : material.Material):
         con, cur = self.connect_database()
-        cur.execute("SELECT * FROM material WHERE material_id=?", (material.id,))
+        cur.execute("SELECT * FROM material WHERE material_id=?", (existing_material.id,))
         single_material = cur.fetchone()
+        # Parse to a material object
+        new_material = material.Material(*single_material)
         con.close()
-        return single_material
+        return new_material
 
     # Note that this_date needs to be a string in ISO format
     def read_materials_from_date(self, this_date):
         con, cur = self.connect_database()
         cur.execute("SELECT * FROM material WHERE due_date=?", (this_date,))
         materials = cur.fetchall()
+        new_list = []
+        for row in materials :
+            new_material = material.Material(*row)
+            new_list.append(new_material)
         con.close()
-        return materials
+        return new_list
 
     def read_material_from_name_or_author(self, text_search):
         con, cur = self.connect_database()
         cur.execute("SELECT * FROM material WHERE author LIKE ? OR WHERE name LIKE ?", 
-                    (text_search, ))
+                    (text_search, text_search))
         materials = cur.fetchall()
+        new_list = []
+        for row in materials :
+            new_material = material.Material(*row)
+            new_list.append(new_material)
         con.close()
-        return materials
-        
+        return new_list
+       
     # First, change the bookmark in the material object. Then, update the database
     # TODO: Maybe add error cheking or returning confirmation?
     
@@ -215,29 +230,45 @@ class Database:
         con, cur = self.connect_database()
         cur.execute("SELECT * FROM extract")
         extracts = cur.fetchall()
+        # Parse to extract list
+        new_list = []
+        for row in extracts :
+            new_material = material(*row)
+            new_list.append(new_material)
         con.close()
-        return extracts
+        return new_list
     
-    def read_extract_from_id(self, extract : extract.Extract) :
+    def read_extract_from_id(self, existing_extract : extract.Extract) :
         con, cur = self.connect_database()
-        cur.execute("SELECT * FROM extract WHERE extract_id=?", extract.extract_id)
+        cur.execute("SELECT * FROM extract WHERE extract_id=?", existing_extract.extract_id)
         single_extract = cur.fetchone()
+        # Parse to extract object
+        new_extract = extract.Extract(*single_extract)
         con.close()
-        return single_extract
+        return new_extract
 
     def read_extracts_from_material(self, material : material.Material):
         con, cur = self.connect_database()
         cur.execute("SELECT * FROM extract WHERE material_id=?", (material.id,))
         extracts = cur.fetchall()
+        # Parse to extract list
+        new_list = []
+        for row in extracts :
+            new_extract = extract.Extract(*row)
+            new_list.append(new_extract)
         con.close()
-        return extracts
+        return new_list
 
     def read_extracts_from_date(self, this_date):
         con, cur = self.connect_database()
         cur.execute("SELECT * FROM extract WHERE due_date=?", (this_date,))
         extracts = cur.fetchall()
+        new_list = []
+        for row in extracts :
+            new_extract = extract.Extract(*row)
+            new_list.append(new_extract)
         con.close()
-        return extracts
+        return new_list
     
     def update_extract_number_of_repetitions(self, extract : extract.Extract):
         con, cur = self.connect_database()

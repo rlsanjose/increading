@@ -16,5 +16,7 @@ class Priority_queue:
             return
         
         self.priority_list.sort(key=attrgetter("priority_percentage"))
+    
+    # TODO: retrieve list of materials and extracts from database
 
         
