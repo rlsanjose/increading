@@ -1,4 +1,5 @@
 from operator import attrgetter
+import database, file_manager
 
 
 class Priority_queue:
@@ -17,6 +18,13 @@ class Priority_queue:
         
         self.priority_list.sort(key=attrgetter("priority_percentage"))
     
-    # TODO: retrieve list of materials and extracts from database
+    # Retrieve list of materials and extracts from database
 
-        
+    def retrieve_list_of_materials(self):
+        fm = file_manager.FileManager()
+        db = database.Database(fm)
+        material_list = db.read_all_materials()
+        extract_list = db.read_all_extracts()
+        new_list = material_list + extract_list
+        self.priority_list = new_list
+        return
