@@ -33,7 +33,7 @@ users-selected-path/
 
 - [ ] Separate completely between code and interface, so it is easier to have
   multiple/modular interfaces
-    - [ ] In src/dailyqueue.py , modify the time stuff
+    - [X] In src/dailyqueue.py , modify the time stuff
     - [ ] Modify material.py and extract.py
         - [ ] Scheduling
         - [ ] Need functions for updating its values and calling database methods
