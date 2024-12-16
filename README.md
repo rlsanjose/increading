@@ -33,9 +33,11 @@ users-selected-path/
 
 - [ ] Separate completely between code and interface, so it is easier to have
   multiple/modular interfaces
+    - [ ] In src/dailyqueue.py , modify the time stuff
     - [ ] Modify material.py and extract.py
+        - [ ] Scheduling
         - [ ] Need functions for updating its values and calling database methods
-    - [ ] Create an interface class
+    - [ ] Create a user interface class
 
 - [ ] Add functionality to open files (materials) during session
     - [ ] Maybe a configuration menu at the beginning in which you can specify the programms to open different types of materials, even with the commands.
