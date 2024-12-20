@@ -6,7 +6,7 @@ import extract
 class Database:
     def __init__(self, fm :file_manager.FileManager):
         self.db_path = fm.db_path
-    
+
     def connect_database(self):
         #con = sqlite3.connect(self.db_path)
         con = sqlite3.connect("new.db")

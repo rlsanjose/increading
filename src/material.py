@@ -2,9 +2,10 @@ import datetime, extractlist, database, file_manager
 
 class Material:
 
-    def __init__(self, material_id, name, author, bookmark, path, 
-                 priority_percentage, due_date, review_date, 
-                 number_of_reviews, interval_to_next_review, a_factor, is_ended):
+    def __init__(self, material_id, name, author, path, bookmark, 
+                 extracts_dir, extracts_file_path, review_date, due_date, 
+                 number_of_reviews, interval_to_next_review, a_factor, 
+                 priority_percentage, is_ended):
 
         self.id = material_id
         self.name = name
@@ -12,8 +13,12 @@ class Material:
         self.bookmark = bookmark
         self.path = path
 
-        self.extracts_dir = (self.author + "_" + self.name).replace(" ", "-")
-        self.extracts_file_path = self.extracts_dir + "/" + self.extracts_dir + ".md"
+        # Pass empty strings when creating new material
+        if extracts_dir == '':
+            self.extracts_dir = (self.author + "_" + self.name).replace(" ", "-")
+
+        if extracts_file_path == '':
+            self.extracts_file_path = self.extracts_dir + "/" + self.extracts_dir + ".md"
 
         # Date format: string as ISO 8601
         self.review_date = review_date
