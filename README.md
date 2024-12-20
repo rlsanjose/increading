@@ -35,7 +35,7 @@ users-selected-path/
   multiple/modular interfaces
     - [X] In src/dailyqueue.py , modify the time stuff
     - [ ] Modify material.py and extract.py
-        - [X] Fix constructors to fit database parsing.
+        - [X] Fix constructors to fit database mapping.
         - [ ] Scheduling
         - [ ] Need functions for updating its values and calling database methods
     - [ ] Create a user interface class
