@@ -1,11 +1,28 @@
-import datetime, extractlist, database, file_manager
+import datetime
+import extractlist
+import database
+import file_manager
+
 
 class Material:
 
-    def __init__(self, material_id, name, author, path, bookmark, 
-                 extracts_dir, extracts_file_path, review_date, due_date, 
-                 number_of_reviews, interval_to_next_review, a_factor, 
-                 priority_percentage, is_ended):
+    def __init__(
+        self,
+        material_id,
+        name,
+        author,
+        path,
+        bookmark,
+        extracts_dir,
+        extracts_file_path,
+        review_date,
+        due_date,
+        number_of_reviews,
+        interval_to_next_review,
+        a_factor,
+        priority_percentage,
+        is_ended,
+    ):
 
         self.id = material_id
         self.name = name
@@ -14,11 +31,14 @@ class Material:
         self.path = path
 
         # Pass empty strings when creating new material
-        if extracts_dir == '':
-            self.extracts_dir = (self.author + "_" + self.name).replace(" ", "-")
+        if extracts_dir == "":
+            self.extracts_dir = (self.author + "_" +
+                                 self.name).replace(" ", "-")
 
-        if extracts_file_path == '':
-            self.extracts_file_path = self.extracts_dir + "/" + self.extracts_dir + ".md"
+        if extracts_file_path == "":
+            self.extracts_file_path = (
+                self.extracts_dir + "/" + self.extracts_dir + ".md"
+            )
 
         # Date format: string as ISO 8601
         self.review_date = review_date
@@ -30,15 +50,15 @@ class Material:
 
         self.is_ended = is_ended
 
-# TODO: you create the extract from the material, but then you create the file
-# from the extract
+    # TODO: you create the extract from the material, but then you create the
+    # file from the extract
 
-# TODO: from here, one should call filemanager.create_singular_directory(),
-# which returns the new relative path (which is necessary in case it already
-# existed a file with the same name)
+    # TODO: from here, one should call filemanager.create_singular_directory(),
+    # which returns the new relative path (which is necessary in case it
+    # already existed a file with the same name)
 
-# TODO: method: pass itself to database, retrieve and fix the id
- 
+    # TODO: method: pass itself to database, retrieve and fix the id
+
     def store_in_database(self):
         fm = file_manager.FileManager()
         db = database.Database(fm)
