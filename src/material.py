@@ -29,7 +29,7 @@ class Material:
         self.author = author
         self.bookmark = bookmark
         self.path = path
-
+        # The next paths are relative paths to the materials directory.
         # Pass empty strings when creating new material
         if extracts_dir == "":
             self.extracts_dir = (self.author + "_" +
@@ -53,11 +53,22 @@ class Material:
     # TODO: you create the extract from the material, but then you create the
     # file from the extract
 
-    # TODO: from here, one should call filemanager.create_singular_directory(),
-    # which returns the new relative path (which is necessary in case it
-    # already existed a file with the same name)
-
-    # TODO: method: pass itself to database, retrieve and fix the id
+    # This method groups the necessary methods to generate the material
+    # directory and extracts file when creating a new material.
+    def create_material_dirs_and_files(self):
+        fm = file_manager.FileManager()
+        # We assume there already is a config file
+        fm.retrieve_extract_path()
+        # Create the directory
+        new_extracts_dir = fm.create_singular_directory(self)
+        if new_extracts_dir != self.extracts_dir:
+            self.extracts_dir = new_extracts_dir
+            # Update the database to set the new path
+            db = database.Database(fm)
+            db.update_material_extracts_dir(self)
+        # Create the extract list file
+        fm.create_extract_list_file(self)
+        return
 
     def store_in_database(self):
         fm = file_manager.FileManager()

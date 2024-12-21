@@ -227,6 +227,19 @@ class Database:
         con.close()
         return
 
+    def update_material_extracts_dir(self, material: material.Material):
+        con, cur = self.connect_database()
+        cur.execute(
+            """UPDATE material
+                SET material.extracts_dir = ?
+                WHERE material.material_id = ? ;,
+                """,
+            (material.extracts_dir, material.id),
+        )
+        con.commit()
+        con.close()
+        return
+
     def delete_material(self, material: material.Material):
         con, cur = self.connect_database()
         cur.execute(

@@ -1,4 +1,3 @@
-import material
 import datetime
 import file_manager
 import database
@@ -6,7 +5,8 @@ import database
 
 class Extract:
 
-    # Instead of passing the material object, I will pass the values.
+    # Instead of passing the material object, I will pass the values
+    # (material_id and material_extracts_dir).
 
     def __init__(
         self,
@@ -21,6 +21,7 @@ class Extract:
         a_factor,
         priority_percentage,
         is_suspended,
+        material_extracts_dir=""
     ):
 
         self.extract_id = extract_id
@@ -41,7 +42,7 @@ class Extract:
                 + str(instant.minute)
                 + str(instant.second)
             )
-            self.path = material.extracts_dir + "/" + instant_str + ".md"
+            self.path = material_extracts_dir + "/" + instant_str + ".md"
 
         self.review_date = review_date
         self.due_date = due_date
