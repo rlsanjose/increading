@@ -36,13 +36,14 @@ users-selected-path/
     - [X] In src/dailyqueue.py , modify the time stuff
     - [ ] Modify material.py and extract.py
         - [X] Fix constructors to fit database mapping.
-        - [ ] Create methods in material class where I group the methods to 
+        - [X] Create methods in material class where I group the methods to 
               create a new object directory and extracts file
         - [ ] Maybe do the same with the extract class
-        - [ ] Scheduling
-            - [ ] Creating class scheduler
-        - [ ] Need functions for updating its values and calling database methods
+    - [ ] Scheduling
+        - [ ] Creating class scheduler
+    - [ ] In Material and Extract, need functions for updating its values and calling database methods
     - [ ] Create a user interface class
+        - [ ] First, do a very primitive one. Later, we'll be able to develop a more sofistified one.
 
 - [ ] Add functionality to open files (materials) during session
     - [ ] Maybe a configuration menu at the beginning in which you can specify the programms to open different types of materials, even with the commands.
