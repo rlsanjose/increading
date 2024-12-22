@@ -33,11 +33,37 @@ users-selected-path/
 
 - [ ] Separate completely between code and interface, so it is easier to have
   multiple/modular interfaces
+    - [X] In src/dailyqueue.py , modify the time stuff
     - [ ] Modify material.py and extract.py
-        - [ ] Need functions for updating its values and calling database methods
-    - [ ] Create an interface class
+        - [X] Fix constructors to fit database mapping.
+        - [X] Create methods in material class where I group the methods to 
+              create a new object directory and extracts file
+    - [ ] Scheduling
+        - [ ] Creating class scheduler
+    - [ ] In Material and Extract, need functions for updating its values and calling database methods
+    - [ ] Also need to implement the rest of the functionality:
+        - [ ] Methods to edit a material (add, delete, modify)
+             - [ ] Add a new material (start to schedule, create dir and file, insert into database)
+             - [ ] Modify things like path, name, author, priority
+        - [ ] Methods to review a material (review, skip for a day, pospone X days, end)
+             - [ ] End the daily review of a material (edit bookmark, re-schedule, update database)
+             - [ ] Pospone X days (re-schedule, update database)
+                 - [ ] Skip for a day (= pospone 1 day)
+             - [ ] Mark a material as totally ended
+        - [ ] Methods to edit an extract
+            - [ ] Add a new extract (remember to add it to the end of the Extracts file)
+            - [ ] A method to modify an extract (_process_ it)
+            - [ ] Delete an extract
+        - [ ] Methods to review an extract
+            - [ ] Check review
+            - [ ] Skip 1 day
+            - [ ] Suspend extract or check extract as completed (totally _processed_)
+        - [ ] Priority queue and daily queue: 
+    - [ ] Create a user interface class
+        - [ ] First, do a very primitive one. Later, we'll be able to develop a more sofistified one.
 
 - [ ] Add functionality to open files (materials) during session
+    - For now, vim will be hardcoded
     - [ ] Maybe a configuration menu at the beginning in which you can specify the programms to open different types of materials, even with the commands.
 - [ ] Add functionality to add bookmark at the end
 - [ ] Make independent extracts from "extract list" (_au contraire_: append new extracts to extract list)

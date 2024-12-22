@@ -1,19 +1,60 @@
-import material, datetime
+import datetime
+import file_manager
+import database
+
 
 class Extract:
 
-    def __init__(self, extract_id, material : material.Material, bookmark, review_date, due_date,
-                 number_of_reviews, interval_to_next_review, a_factor):
+    # Instead of passing the material object, I will pass the values
+    # (material_id and material_extracts_dir).
+
+    def __init__(
+        self,
+        extract_id,
+        material_id,
+        bookmark,
+        path,
+        review_date,
+        due_date,
+        number_of_reviews,
+        interval_to_next_review,
+        a_factor,
+        priority_percentage,
+        is_suspended,
+        material_extracts_dir=""
+    ):
+
         self.extract_id = extract_id
-        self.material_id = material.id
-        self.bookmark = bookmark,
-        self.path = material.extracts_dir + "/" + self.extract_id + ".md"
+        self.material_id = material_id
+        self.bookmark = (bookmark,)
+
+        # Saving the path with the current date
+        # TODO: When creating a new extract, check if this file already exists
+        # and rename
+        if path == "":
+            instant = datetime.datetime.now()
+            instant_str = (
+                str(instant.year)
+                + str(instant.month)
+                + str(instant.day)
+                + "-"
+                + str(instant.hour)
+                + str(instant.minute)
+                + str(instant.second)
+            )
+            self.path = material_extracts_dir + "/" + instant_str + ".md"
 
         self.review_date = review_date
         self.due_date = due_date
         self.number_of_reviews = number_of_reviews
         self.interval_to_next_review = interval_to_next_review
         self.a_factor = a_factor
-        self.priority_percentage = material.priority_percentage
-        self.is_suspended = 0
+        self.priority_percentage = priority_percentage
+        self.is_suspended = is_suspended
 
+    def store_in_database(self):
+        fm = file_manager.FileManager()
+        db = database.Database(fm)
+        newid = db.insert_extract(self)
+        self.extract_id = newid
+        return

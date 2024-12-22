@@ -19,10 +19,11 @@ class Daily_queue:
     def create_daily_list(self, priority_queue):
         
         unordered_daily = []
+        
 
-        # TODO: it is failing here, because "today()" contains the hour, minutes...
+        # Add if the due date is equal or less (previous date)
         for item in priority_queue.priority_list :
-            if item.date_of_next == datetime.date.today():
+            if datetime.date.fromisoformat(item.due_date) <= datetime.date.today():
                 unordered_daily.append(item)
             else :
                 continue
