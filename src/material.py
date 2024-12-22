@@ -107,12 +107,13 @@ class Material:
         # Set new review date
         self.review_date = datetime.date.today().isoformat()
         # Set due date and new interval
-        (new_due_date, new_interval) = schedule.Scheduler.review(
+        (new_interval, new_due_date) = schedule.Scheduler.review(
             self.review_date, self.a_factor, self.interval_to_next_review, 1)
         self.due_date = new_due_date
         self.interval_to_next_review = new_interval
         # Update database: review and due date
         db.update_material_review_due_dates(self)
+        db.update_material_interval_to_next_review()
         # Add a review
         self.number_of_reviews += 1
         db.update_material_number_of_reviews(self)
@@ -123,6 +124,10 @@ class Material:
         actual_date = datetime.date.today()
         next_date = actual_date + interval
         self.due_date = next_date.isoformat()
+        # Update db
+        fm = file_manager.FileManager()
+        db = database.Database(fm)
+        db.update_material_review_due_dates()
         return
 
     def end_material(self):

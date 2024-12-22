@@ -52,14 +52,14 @@ users-selected-path/
             - [ ] Add a new extract (remember to add it to the end of the Extracts file)
             - [ ] A method to modify an extract (_process_ it)
             - [ ] Delete an extract
-        - [ ] Methods to review an extract
-            - [ ] Check review (maybe two options to select when to show again, as in a bad (restart) or good answer)
-            - [ ] Skip 1/X days
-            - [ ] Suspend extract or check extract as completed (totally _processed_)
+        - [X] Methods to review an extract
+            - [X] Check review (maybe two options to select when to show again, as in a bad (restart) or good answer)
+            - [X] Skip 1/X days
+            - [X] Suspend extract or check extract as completed (totally _processed_)
         - [ ] Priority queue and daily queue: 
             - [ ] The daily queue has to get the elements whose dates precede today but are not ended
     - [ ] Create a user interface class
-        - [ ] First, do a very primitive one. Later, we'll be able to develop a more sofistified one.
+        - [ ] First, do a very primitive one.
 
 - [ ] Modify things like path, name, author, priority
 - [ ] Add functionality to open files (materials) during session
