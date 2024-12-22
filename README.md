@@ -49,7 +49,7 @@ users-selected-path/
                  - [X] Skip for a day (= pospone 1 day)
              - [X] Mark a material as totally ended
         - [ ] Methods to edit an extract
-            - [ ] Add a new extract (remember to add it to the end of the Extracts file)
+            - [ ] Add a new extract (create new file, add it to the end of the Extracts file)
             - [ ] A method to modify an extract (_process_ it)
             - [ ] Delete an extract
         - [X] Methods to review an extract
