@@ -2,6 +2,7 @@ import datetime
 import file_manager
 import database
 import schedule
+import subprocess
 
 
 class Extract:
@@ -43,6 +44,7 @@ class Extract:
                 + str(instant.minute)
                 + str(instant.second)
             )
+            # TODO: Is this path relative or absolute? Should be relative
             self.path = material_extracts_dir + "/" + instant_str + ".md"
 
         self.review_date = review_date
@@ -89,4 +91,24 @@ class Extract:
         fm = file_manager.FileManager()
         db = database.Database(fm)
         db.update_extract_is_suspended()
+        return
+
+    def create_and_edit_extract(self):
+        # Create file
+        fm = file_manager.FileManager()
+        path_to_file = fm.create_singular_extract_file(self)
+        # Open file with vim
+        subprocess.run(["vim ", path_to_file])
+        # Calling the database to get its material parent
+        fm = file_manager.FileManager()
+        db = database.Database(fm)
+        material = db.read_material_from_id(self.material_id)
+        # Concat the file in the extracts file
+        fm.concat_extract_to_list(material, self)
+        return
+
+    def edit_extract(self):
+        fm = file_manager.FileManager()
+        path_to_file = fm.extracts_path + "/" + self.path
+        subprocess.run(["vim ", path_to_file])
         return
