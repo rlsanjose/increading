@@ -17,6 +17,10 @@ class FileManager:
         else:
             self.extracts_path = ""
 
+    """
+        All the previous paths need to be absolute
+    """
+
     def extracts_directory_exists(self):
         if self.extracts_path == "":
             return False
@@ -65,6 +69,7 @@ class FileManager:
         return relative_path
 
     # TODO: not sure if `exists()` works here.
+    # TODO: Extracts_path needs to be a string with an absolute path
     def check_singular_directory(self, material: material.Material):
         new_path = self.extracts_path + "/" + material.extracts_dir
         return new_path.exists()
@@ -101,6 +106,7 @@ class FileManager:
     # If config_file is created, then we don't need to check if there is
     # 'general.extracts_path'
 
+    # Extracts_path needs to be a string with an absolute path
     def retrieve_extract_path(self):
         config_file_path = self.user_config_dir + "/increading.config"
         config_file = configparser.ConfigParser()
@@ -112,11 +118,11 @@ class FileManager:
     def check_db(self):
         return os.path.exists(self.db_path)
 
-    def create_singular_extract_file(self, extract: extract.Extract):
+    def create_singular_extract_file(self, extract: extract.Extract) -> str:
         new_path = self.extracts_path + "/" + extract.path
         f = open(new_path, "x")
         f.close()
-        return
+        return new_path
 
     def create_extract_list_file(self, material: material.Material):
         new_path = self.extracts_path + "/" + material.extracts_file_path

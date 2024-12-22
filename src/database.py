@@ -101,10 +101,11 @@ class Database:
         con.close()
         return new_list
 
-    def read_material_from_id(self, existing_material: material.Material):
+    # TODO: Check if this works
+    def read_material_from_id(self, material_id: int):
         con, cur = self.connect_database()
         cur.execute(
-            "SELECT * FROM material WHERE material_id=?", (existing_material.id,)
+            "SELECT * FROM material WHERE material_id=?", (material_id,)
         )
         single_material = cur.fetchone()
         # Parse to a material object

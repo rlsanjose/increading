@@ -48,20 +48,24 @@ users-selected-path/
              - [X] Pospone X days (re-schedule, update database)
                  - [X] Skip for a day (= pospone 1 day)
              - [X] Mark a material as totally ended
-        - [ ] Methods to edit an extract
-            - [ ] Add a new extract (create new file, add it to the end of the Extracts file)
-            - [ ] A method to modify an extract (_process_ it)
-            - [ ] Delete an extract
+        - [X] Methods to edit an extract
+            - [X] Add a new extract (create new file, add it to the end of the Extracts file)
+            - [X] A method to modify an extract (_process_ it)
         - [X] Methods to review an extract
             - [X] Check review (maybe two options to select when to show again, as in a bad (restart) or good answer)
             - [X] Skip 1/X days
             - [X] Suspend extract or check extract as completed (totally _processed_)
         - [ ] Priority queue and daily queue: 
             - [ ] The daily queue has to get the elements whose dates precede today but are not ended
+    - [ ] In file_manager, need to fix some things:
+       - [ ] Distinguish between strings and Path objects
+       - [ ] Write down when the paths I'm using are relative or absolute
+       - [ ] Method to create the config file for the first time
     - [ ] Create a user interface class
         - [ ] First, do a very primitive one.
 
 - [ ] Modify things like path, name, author, priority
+- [ ] Delete an extract (for now, mark as suspended)
 - [ ] Add functionality to open files (materials) during session
     - For now, vim will be hardcoded
     - [ ] Maybe a configuration menu at the beginning in which you can specify the programms to open different types of materials, even with the commands.
