@@ -9,6 +9,7 @@ class Database:
         self.db_path = fm.db_path
 
     def connect_database(self):
+        # TODO: edit again to make it correct
         # con = sqlite3.connect(self.db_path)
         con = sqlite3.connect("new.db")
         cursor = con.cursor()
@@ -137,13 +138,13 @@ class Database:
         con.close()
         return new_list
 
-    # First, change the bookmark in the material object. Then, update the database
+    # First, change the bookmark in the material. Then, update the database
     # TODO: Maybe add error cheking or returning confirmation?
 
     def update_material_bookmark(self, material: material.Material):
         con, cur = self.connect_database()
         cur.execute(
-            """UPDATE material 
+            """UPDATE material
                         SET material.bookmark = ?
                     WHERE material.material_id = ? ;""",
             (material.bookmark, material.id),
@@ -157,7 +158,7 @@ class Database:
     def update_material_review_due_dates(self, material: material.Material):
         con, cur = self.connect_database()
         cur.execute(
-            """UPDATE material 
+            """UPDATE material
                     SET material.due_date = ?,
                     material.review_date = ?
                     WHERE material.material_id = ? ;""",
