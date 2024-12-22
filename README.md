@@ -55,12 +55,12 @@ users-selected-path/
             - [X] Check review (maybe two options to select when to show again, as in a bad (restart) or good answer)
             - [X] Skip 1/X days
             - [X] Suspend extract or check extract as completed (totally _processed_)
-        - [ ] Priority queue and daily queue: 
-            - [ ] The daily queue has to get the elements whose dates precede today but are not ended
-    - [ ] In file_manager, need to fix some things:
-       - [ ] Distinguish between strings and Path objects
-       - [ ] Write down when the paths I'm using are relative or absolute
-       - [ ] Method to create the config file for the first time
+        - [X] Priority queue and daily queue: 
+            - [X] The daily queue has to get the elements whose dates precede today but are not ended
+    - [X] In file_manager, need to fix some things:
+       - [X] Distinguish between strings and Path objects
+       - [X] Write down when the paths I'm using are relative or absolute
+       - [X] Method to create the config file for the first time
     - [ ] Create a user interface class
         - [ ] First, do a very primitive one.
 
