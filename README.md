@@ -55,8 +55,8 @@ users-selected-path/
             - [ ] A method to modify an extract (_process_ it)
             - [ ] Delete an extract
         - [ ] Methods to review an extract
-            - [ ] Check review
-            - [ ] Skip 1 day
+            - [ ] Check review (maybe two options to select when to show again, as in a bad (restart) or good answer)
+            - [ ] Skip 1/X days
             - [ ] Suspend extract or check extract as completed (totally _processed_)
         - [ ] Priority queue and daily queue: 
     - [ ] Create a user interface class
