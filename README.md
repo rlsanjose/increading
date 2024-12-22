@@ -34,13 +34,13 @@ users-selected-path/
 - [ ] Separate completely between code and interface, so it is easier to have
   multiple/modular interfaces
     - [X] In src/dailyqueue.py , modify the time stuff
-    - [ ] Modify material.py and extract.py
+    - [X] Modify material.py and extract.py
         - [X] Fix constructors to fit database mapping.
         - [X] Create methods in material class where I group the methods to 
               create a new object directory and extracts file
     - [X] Scheduling
         - [X] Creating class scheduler
-    - [ ] Also need to implement the rest of the functionality:
+    - [X] Also need to implement the rest of the functionality:
         - [X] Methods to edit a material (add, delete, modify)
              - [X] Add a new material (start to schedule, create dir and file, insert into database)
         - [X] Methods to review a material (review, skip for a day, pospone X days, end)
