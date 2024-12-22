@@ -38,30 +38,30 @@ users-selected-path/
         - [X] Fix constructors to fit database mapping.
         - [X] Create methods in material class where I group the methods to 
               create a new object directory and extracts file
-    - [ ] Scheduling
-        - [ ] Creating class scheduler
-    - [ ] In Material and Extract, need functions for updating its values and calling database methods
+    - [X] Scheduling
+        - [X] Creating class scheduler
     - [ ] Also need to implement the rest of the functionality:
-        - [ ] Methods to edit a material (add, delete, modify)
-             - [ ] Add a new material (start to schedule, create dir and file, insert into database)
-             - [ ] Modify things like path, name, author, priority
-        - [ ] Methods to review a material (review, skip for a day, pospone X days, end)
-             - [ ] End the daily review of a material (edit bookmark, re-schedule, update database)
-             - [ ] Pospone X days (re-schedule, update database)
-                 - [ ] Skip for a day (= pospone 1 day)
-             - [ ] Mark a material as totally ended
+        - [X] Methods to edit a material (add, delete, modify)
+             - [X] Add a new material (start to schedule, create dir and file, insert into database)
+        - [X] Methods to review a material (review, skip for a day, pospone X days, end)
+             - [X] End the daily review of a material (edit bookmark, re-schedule, update database)
+             - [X] Pospone X days (re-schedule, update database)
+                 - [X] Skip for a day (= pospone 1 day)
+             - [X] Mark a material as totally ended
         - [ ] Methods to edit an extract
-            - [ ] Add a new extract (remember to add it to the end of the Extracts file)
+            - [ ] Add a new extract (create new file, add it to the end of the Extracts file)
             - [ ] A method to modify an extract (_process_ it)
             - [ ] Delete an extract
-        - [ ] Methods to review an extract
-            - [ ] Check review
-            - [ ] Skip 1 day
-            - [ ] Suspend extract or check extract as completed (totally _processed_)
+        - [X] Methods to review an extract
+            - [X] Check review (maybe two options to select when to show again, as in a bad (restart) or good answer)
+            - [X] Skip 1/X days
+            - [X] Suspend extract or check extract as completed (totally _processed_)
         - [ ] Priority queue and daily queue: 
+            - [ ] The daily queue has to get the elements whose dates precede today but are not ended
     - [ ] Create a user interface class
-        - [ ] First, do a very primitive one. Later, we'll be able to develop a more sofistified one.
+        - [ ] First, do a very primitive one.
 
+- [ ] Modify things like path, name, author, priority
 - [ ] Add functionality to open files (materials) during session
     - For now, vim will be hardcoded
     - [ ] Maybe a configuration menu at the beginning in which you can specify the programms to open different types of materials, even with the commands.
