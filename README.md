@@ -93,4 +93,4 @@ users-selected-path/
 
 ## Bugs
 
-- [ ] Enters in a loop after reviewing a material, instead of going on to the next. Happened when there only was 1 item in dailyqueue.
+- [ ] Enters in a loop after reviewing a material, instead of going on to the next. Happened when there only was 1 item in dailyqueue (also when 2).

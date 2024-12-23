@@ -38,7 +38,6 @@ class Daily_queue:
 
         ordered_daily = []
         ordered_daily = Daily_queue.order_list(unordered_daily)
-        print(unordered_daily)
         self.daily_list = ordered_daily
 
     def make_actual_list(self):

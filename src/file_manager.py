@@ -152,7 +152,7 @@ class FileManager:
         text = file2.read()
         file2.close()
         file1 = open(extract_list_path, "a")
-        file1.write("\n" + "---" + "\n")
+        file1.write("\n" + "---" + "\n\n")
         file1.write(text)
         file1.close()
         return

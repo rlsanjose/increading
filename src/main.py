@@ -27,7 +27,11 @@ def start_session():
     for item in daily_queue.actual_list:
 
         os.system("cls|clear")
-        while daily_queue.current_number < len(daily_queue.actual_list):
+        while True:
+            if daily_queue.current_number < len(daily_queue.actual_list):
+                os.system("cls|clear")
+                input("\n\nThe daily queue is ended.\n\nPress enter to continue")
+                break
             print(
                 "\n"
                 + str(daily_queue.current_number + 1)
