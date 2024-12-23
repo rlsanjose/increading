@@ -90,14 +90,14 @@ class Extract:
                          datetime.timedelta(num_of_days)).isoformat()
         fm = file_manager.FileManager()
         db = database.Database(fm)
-        db.update_extract_review_and_due_dates()
+        db.update_extract_review_and_due_dates(self)
         return
 
     def end_extract(self):
         self.is_suspended = 1
         fm = file_manager.FileManager()
         db = database.Database(fm)
-        db.update_extract_is_suspended()
+        db.update_extract_is_suspended(self)
         return
 
     def create_and_edit_extract(self, material: material.Material):

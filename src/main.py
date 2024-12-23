@@ -110,7 +110,7 @@ def start_session():
                         break
                     case "e" | "E":
                         item.pospone(1)
-                        daily_queue.current_number = len(daily_queue)
+                        # daily_queue.current_number = len(daily_queue)
                         break
                     case _:
                         print("\nInvalid input\n")
@@ -150,8 +150,8 @@ def start_session():
                             else:
                                 print("\nInvalid input\n")
                                 continue
-                        item.pospone_extract(int(num_of_days))
-                        pass
+                        item.pospone_extract(int(options))
+                        break
                     case "d":
                         item.end_extract()
                         break
