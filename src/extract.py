@@ -3,6 +3,7 @@ import file_manager
 import database
 import schedule
 import subprocess
+import material
 
 
 class Extract:
@@ -62,6 +63,7 @@ class Extract:
         self.extract_id = newid
         return
 
+    # When creating a new extract, call this method with punctuation = 0
     def review_extract(self, punctuation: int):
         # Set new review date
         self.review_date = datetime.date.today().isoformat()
@@ -71,11 +73,14 @@ class Extract:
         )
         self.interval_to_next_review = new_interval
         self.due_date = new_due_date
+        # Sum 1 to number of reviews
+        self.number_of_reviews += 1
         # Update database
         fm = file_manager.FileManager()
         db = database.Database(fm)
         db.update_extract_review_and_due_dates()
         db.update_extract_interval_to_next_review()
+        db.update_extract_number_of_repetitions(self)
         return
 
     def pospone_extract(self, num_of_days: int = 1):
@@ -93,10 +98,11 @@ class Extract:
         db.update_extract_is_suspended()
         return
 
-    def create_and_edit_extract(self):
+    def create_and_edit_extract(self, material: material.Material):
         # Create file
         fm = file_manager.FileManager()
-        path_to_file = fm.create_singular_extract_file(self)
+        path_to_file = fm.create_singular_extract_file(
+            self, material.name, material.author, self.bookmark)
         # Open file with vim
         subprocess.run(["vim ", path_to_file])
         # Calling the database to get its material parent

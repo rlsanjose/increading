@@ -77,14 +77,14 @@ class FileManager:
         return new_path.exists()
 
     def check_user_data_dir(self):
-        return self.user_data_dir.exists()
+        return os.path.exists(self.user_data_dir)
 
     def create_user_data_dir(self):
         self.create_directory(self.user_data_dir)
         return
 
     def check_user_config_dir(self):
-        return self.user_config_dir.exists()
+        return os.path.exists(self.user_config_dir)
 
     def create_user_config_dir(self):
         self.create_directory(self.user_config_dir)
@@ -121,9 +121,12 @@ class FileManager:
     def check_db(self):
         return os.path.exists(self.db_path)
 
-    def create_singular_extract_file(self, extract: extract.Extract) -> str:
+    def create_singular_extract_file(self, extract: extract.Extract, name, author, bookmark) -> str:
         new_path = self.extracts_path + "/" + extract.path
-        f = open(new_path, "x")
+        f = open(new_path, "w")
+        first_line = "# " + name + ", " + author + ", " + bookmark
+        f.write(first_line)
+        f.write("\n")
         f.close()
         return new_path
 
