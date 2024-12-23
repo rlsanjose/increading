@@ -11,8 +11,16 @@ import os
 def start_session():
 
     priority_queue = priorityqueue.Priority_queue()
+    if len(priority_queue.priority_list) == 0:
+        print("\nEmpty list. Start by adding materials!\n")
+        input("Press enter to continue\n")
+        return
     daily_queue = dailyqueue.Daily_queue()
     daily_queue.create_daily_list(priority_queue)
+    if len(daily_queue.daily_list) == 0:
+        print("\nNothing to review today :(\n")
+        input("Press enter to continue\n")
+        return
     daily_queue.make_actual_list()
 
     for item in daily_queue.actual_list:
@@ -197,6 +205,7 @@ def add_material():
 
 def see_queue():
     queue = priorityqueue.Priority_queue()
+    queue.retrieve_list_of_items()
     index = 0
     print(
         "------------------------------\n\
@@ -208,7 +217,7 @@ Place--Priority--Title--Author\n\
         if isinstance(item, material.Material):
             queue2.append(item)
 
-    queue2.sort(key=attrgetter("priority_percentage"))
+    queue2.sort(key=lambda x: x.priority_percentage)
     for item in queue2:
         print(index, ":", item.priority_percentage,
               "\b%", item.name, item.author)
@@ -235,6 +244,7 @@ while True:
         case "b" | "B":
             add_material()
         case "c" | "C":
+            see_queue()
             pass
         case "d" | "D":
             see_queue()
