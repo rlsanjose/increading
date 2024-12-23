@@ -131,7 +131,7 @@ class Material:
         # Update db
         fm = file_manager.FileManager()
         db = database.Database(fm)
-        db.update_material_review_due_dates()
+        db.update_material_review_due_dates(self)
         return
 
     def end_material(self):
@@ -140,5 +140,5 @@ class Material:
         db = database.Database(fm)
         db.update_material_review_due_dates(self)
         self.is_ended = 1
-        db.update_material_is_ended()
+        db.update_material_is_ended(self)
         return
