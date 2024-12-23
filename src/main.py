@@ -116,11 +116,10 @@ def start_session():
                         print("\nInvalid input\n")
                         continue
         elif isinstance(item, extract.Extract):
-            os.system("cls|clear")
             item.edit_extract()
-            os.system("cls|clear")
             while True:
-                some_options = input("Select an option: \n"
+                some_options = input("\nWhat to do with this last extract?\n"
+                                     + "Select an option: \n"
                                      + "    (a) Mark as reviewed\n"
                                      + "    (b) Edit again\n"
                                      + "    (c) Pospone X days\n"
