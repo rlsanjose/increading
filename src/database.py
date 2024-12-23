@@ -144,8 +144,8 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE material
-                        SET material.bookmark = ?
-                    WHERE material.material_id = ? ;""",
+                        SET bookmark = ?
+                    WHERE material_id = ? ;""",
             (material.bookmark, material.id),
         )
         con.commit()
@@ -158,9 +158,9 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE material
-                    SET material.due_date = ?,
-                    material.review_date = ?
-                    WHERE material.material_id = ? ;""",
+                    SET due_date = ?,
+                    review_date = ?
+                    WHERE material_id = ? ;""",
             (material.due_date, material.review_date, material.id),
         )
         con.commit()
@@ -171,8 +171,8 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE material
-                    SET material.priority = ?
-                    WHERE material.material_id = ? ;""",
+                    SET priority = ?
+                    WHERE material_id = ? ;""",
             (material.priority_percentage, material.id),
         )
         con.commit()
@@ -183,8 +183,8 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE material
-                    SET material.number_of_reviews = ?
-                    WHERE material.material_id = ? ;""",
+                    SET number_of_reviews = ?
+                    WHERE material_id = ? ;""",
             (material.number_of_reviews, material.id),
         )
         con.commit()
@@ -195,8 +195,8 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE material
-                    SET material.interval_to_next_review = ?
-                    WHERE material.material_id = ? ;""",
+                    SET interval_to_next_review = ?
+                    WHERE material_id = ? ;""",
             (material.interval_to_next_review, material.id),
         )
         con.commit()
@@ -207,8 +207,8 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE material
-                    SET material.a_factor = ?
-                    WHERE material.material_id = ? ;""",
+                    SET a_factor = ?
+                    WHERE material_id = ? ;""",
             (material.a_factor, material.id),
         )
         con.commit()
@@ -219,8 +219,8 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE material
-                    SET material.is_ended = ?
-                    WHERE material.material_id = ? ;""",
+                    SET is_ended = ?
+                    WHERE material_id = ? ;""",
             (material.is_ended, material.id),
         )
         con.commit()
@@ -231,8 +231,8 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE material
-                SET material.extracts_dir = ?
-                WHERE material.material_id = ? ;,
+                SET extracts_dir = ?
+                WHERE material_id = ? ;,
                 """,
             (material.extracts_dir, material.id),
         )
@@ -244,7 +244,7 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """DELETE FROM material
-                    WHERE material.material_id = ? ; """,
+                    WHERE material_id = ? ; """,
             (material.id,),
         )
         con.commit()
@@ -327,8 +327,8 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE extract
-                    SET extract.number_of_reviews = ?
-                    WHERE extract.extract_id = ? ;""",
+                    SET number_of_reviews = ?
+                    WHERE extract_id = ? ;""",
             (extract.number_of_reviews, extract.extract_id),
         )
         con.commit()
@@ -339,9 +339,9 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE extract
-                    SET extract.review_date = ?,
-                    extract.due_date = ?
-                    WHERE extract.extract_id = ? ;""",
+                    SET review_date = ?,
+                    due_date = ?
+                    WHERE extract_id = ? ;""",
             (extract.review_date, extract.due_date, extract.extract_id),
         )
         con.commit()
@@ -352,8 +352,8 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE extract
-                    SET extract.priority = ?
-                    WHERE extract.extract_id = ? ;""",
+                    SET priority = ?
+                    WHERE extract_id = ? ;""",
             (extract.priority_percentage, extract.extract_id),
         )
         con.commit()
@@ -364,8 +364,8 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE extract
-                    SET extract.interval_to_next_review = ?
-                    WHERE extract.extract_id = ? ;""",
+                    SET interval_to_next_review = ?
+                    WHERE extract_id = ? ;""",
             (extract.interval_to_next_review, extract.extract_id),
         )
         con.commit()
@@ -376,8 +376,8 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE extract
-                    SET extract.a_factor = ? 
-                    WHERE extract.extract_id = ? ;""",
+                    SET a_factor = ?
+                    WHERE extract_id = ? ;""",
             (extract.a_factor, extract.extract_id),
         )
         con.commit()
@@ -388,8 +388,8 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """UPDATE extract
-                    SET extract.is_suspended = ?
-                    WHERE extract.extract_id = ? ;""",
+                    SET is_suspended = ?
+                    WHERE extract_id = ? ;""",
             (extract.is_suspended, extract.extract_id),
         )
         con.commit()
@@ -408,7 +408,7 @@ class Database:
         con, cur = self.connect_database()
         cur.execute(
             """DELETE FROM extract
-                    WHERE extract.material_id = ?""",
+                    WHERE material_id = ?""",
             (material.id,),
         )
         con.commit()
