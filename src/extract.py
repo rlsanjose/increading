@@ -104,7 +104,7 @@ class Extract:
         path_to_file = fm.create_singular_extract_file(
             self, material.name, material.author, self.bookmark)
         # Open file with vim
-        subprocess.run(["vim ", path_to_file])
+        subprocess.run(["vim", path_to_file])
         # Calling the database to get its material parent
         fm = file_manager.FileManager()
         db = database.Database(fm)
@@ -116,5 +116,5 @@ class Extract:
     def edit_extract(self):
         fm = file_manager.FileManager()
         path_to_file = fm.extracts_path + "/" + self.path
-        subprocess.run(["vim ", path_to_file])
+        subprocess.run(["vim", path_to_file])
         return
