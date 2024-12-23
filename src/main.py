@@ -11,6 +11,7 @@ import os
 def start_session():
 
     priority_queue = priorityqueue.Priority_queue()
+    priority_queue.retrieve_list_of_items()
     if len(priority_queue.priority_list) == 0:
         print("\nEmpty list. Start by adding materials!\n")
         input("Press enter to continue\n")
