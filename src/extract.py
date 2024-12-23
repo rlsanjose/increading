@@ -29,7 +29,7 @@ class Extract:
 
         self.extract_id = extract_id
         self.material_id = material_id
-        self.bookmark = (bookmark,)
+        self.bookmark = bookmark
 
         # Saving the path with the current date
         # TODO: When creating a new extract, check if this file already exists
