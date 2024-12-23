@@ -117,7 +117,7 @@ class Material:
         self.interval_to_next_review = new_interval
         # Update database: review and due date
         db.update_material_review_due_dates(self)
-        db.update_material_interval_to_next_review()
+        db.update_material_interval_to_next_review(self)
         # Add a review
         self.number_of_reviews += 1
         db.update_material_number_of_reviews(self)
