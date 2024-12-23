@@ -121,9 +121,12 @@ class FileManager:
     def check_db(self):
         return os.path.exists(self.db_path)
 
-    def create_singular_extract_file(self, extract: extract.Extract) -> str:
+    def create_singular_extract_file(self, extract: extract.Extract, name, author, bookmark) -> str:
         new_path = self.extracts_path + "/" + extract.path
-        f = open(new_path, "x")
+        f = open(new_path, "w")
+        first_line = "# " + name + ", " + author + ", " + bookmark
+        f.write(first_line)
+        f.write("\n")
         f.close()
         return new_path
 

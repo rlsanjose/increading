@@ -61,7 +61,7 @@ users-selected-path/
        - [X] Distinguish between strings and Path objects
        - [X] Write down when the paths I'm using are relative or absolute
        - [X] Method to create the config file for the first time
-    - [ ] Create a user interface class
+    - [ ] Create a user interface class (for the moment, I'll work in main)
         - [ ] First, do a very primitive one.
 
 - [ ] Modify things like path, name, author, priority
