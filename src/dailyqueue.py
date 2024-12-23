@@ -1,4 +1,6 @@
 from operator import attrgetter
+import material
+import extract
 import datetime
 
 
@@ -11,7 +13,7 @@ class Daily_queue:
 
     def order_list(sorting_list):
         if len(sorting_list) == 0:
-            return
+            return []
         sorting_list.sort(key=attrgetter("priority_percentage"))
         return sorting_list
 
@@ -19,15 +21,24 @@ class Daily_queue:
         unordered_daily = []
         # Add if the due date is equal or less (previous date) and is not ended
         for item in priority_queue.priority_list:
-            if item.is_ended == 1:
-                continue
-            if datetime.date.fromisoformat(item.due_date) <= datetime.date.today():
-                unordered_daily.append(item)
-            else:
-                continue
+            if isinstance(item, material.Material):
+                if item.is_ended == 1:
+                    continue
+                if datetime.date.fromisoformat(item.due_date) <= datetime.date.today():
+                    unordered_daily.append(item)
+                else:
+                    continue
+            elif isinstance(item, extract.Extract):
+                if item.is_suspended == 1:
+                    continue
+                if datetime.date.fromisoformat(item.due_date) <= datetime.date.today():
+                    unordered_daily.append(item)
+                else:
+                    continue
 
         ordered_daily = []
         ordered_daily = Daily_queue.order_list(unordered_daily)
+        print(unordered_daily)
         self.daily_list = ordered_daily
 
     def make_actual_list(self):
