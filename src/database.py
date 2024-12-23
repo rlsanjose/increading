@@ -282,8 +282,8 @@ class Database:
         # Parse to extract list
         new_list = []
         for row in extracts:
-            new_material = material(*row)
-            new_list.append(new_material)
+            new_extract = extract.Extract(*row)
+            new_list.append(new_extract)
         con.close()
         return new_list
 
