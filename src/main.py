@@ -27,137 +27,137 @@ def start_session():
     for item in daily_queue.actual_list:
 
         os.system("cls|clear")
-        while True:
-            if not daily_queue.current_number < len(daily_queue.actual_list):
-                os.system("cls|clear")
-                input("\n\nThe daily queue is ended.\n\nPress enter to continue")
-                break
-            print(
-                "\n"
-                + str(daily_queue.current_number + 1)
-                + " / "
-                + str(len(daily_queue.actual_list))
-            )
-            print("\n")
+        # while True:
+        #     if not daily_queue.current_number < len(daily_queue.actual_list):
+        #         os.system("cls|clear")
+        #         input("\n\nThe daily queue is ended.\n\nPress enter to continue")
+        #         break
+        print(
+            "\n"
+            + str(daily_queue.current_number + 1)
+            + " / "
+            + str(len(daily_queue.actual_list))
+        )
+        print("\n")
 
-            if isinstance(item, material.Material):
-                print(item.author + ": " + item.name)
-                print("\n")
-                print("Go to: " + item.path)
-                print("\n")
-                while True:
-                    some_options = input(
-                        "Select option: \n"
-                        + "    (a) Mark as reviewed\n"
-                        + "    (b) Add new extract\n"
-                        + "    (c) Pospone material\n"
-                        + "    (d) Mark as ended\n"
-                        + "    (e) Interrupt here\n"
-                        + "Enter: "
-                    )
-                    match some_options:
-                        case "a" | "A":
-                            # Set new bookmark
-                            new_bookmark = input("Enter new bookmark: ")
-                            item.review_material(new_bookmark)
-                            break
-                        case "b" | "B":
-                            extract_id = 0
-                            material_id = item.id
-                            bookmark = input("Enter page of book: ")
-                            path = ""
-                            review_date = datetime.date.today().isoformat()
-                            due_date = review_date
-                            number_of_reviews = 0
-                            interval_to_next_review = 1
-                            a_factor = 2.5
-                            priority_percentage = item.priority_percentage
-                            is_suspended = 0
-                            material_extracts_dir = item.extracts_dir
-                            new_extract = extract.Extract(
-                                extract_id,
-                                material_id,
-                                bookmark,
-                                path,
-                                review_date,
-                                due_date,
-                                number_of_reviews,
-                                interval_to_next_review,
-                                a_factor,
-                                priority_percentage,
-                                is_suspended,
-                                material_extracts_dir,
-                            )
-                            # Schedule
-                            new_extract.review_extract(0)
-                            # Store in db
-                            new_extract.store_in_database()
-                            # Create file and edit
-                            new_extract.create_and_edit_extract(item)
+        if isinstance(item, material.Material):
+            print(item.author + ": " + item.name)
+            print("\n")
+            print("Go to: " + item.path)
+            print("\n")
+            while True:
+                some_options = input(
+                    "Select option: \n"
+                    + "    (a) Mark as reviewed\n"
+                    + "    (b) Add new extract\n"
+                    + "    (c) Pospone material\n"
+                    + "    (d) Mark as ended\n"
+                    + "    (e) Interrupt here\n"
+                    + "Enter: "
+                )
+                match some_options:
+                    case "a" | "A":
+                        # Set new bookmark
+                        new_bookmark = input("Enter new bookmark: ")
+                        item.review_material(new_bookmark)
+                        break
+                    case "b" | "B":
+                        extract_id = 0
+                        material_id = item.id
+                        bookmark = input("Enter page of book: ")
+                        path = ""
+                        review_date = datetime.date.today().isoformat()
+                        due_date = review_date
+                        number_of_reviews = 0
+                        interval_to_next_review = 1
+                        a_factor = 2.5
+                        priority_percentage = item.priority_percentage
+                        is_suspended = 0
+                        material_extracts_dir = item.extracts_dir
+                        new_extract = extract.Extract(
+                            extract_id,
+                            material_id,
+                            bookmark,
+                            path,
+                            review_date,
+                            due_date,
+                            number_of_reviews,
+                            interval_to_next_review,
+                            a_factor,
+                            priority_percentage,
+                            is_suspended,
+                            material_extracts_dir,
+                        )
+                        # Schedule
+                        new_extract.review_extract(0)
+                        # Store in db
+                        new_extract.store_in_database()
+                        # Create file and edit
+                        new_extract.create_and_edit_extract(item)
+                        continue
+                    case "c" | "C":
+                        while True:
+                            num_of_days = input("Days to pospone: ")
+                            if num_of_days.isdecimal():
+                                item.pospone(int(num_of_days))
+                                break
+                            else:
+                                print("\nInvalid input\n")
                             continue
-                        case "c" | "C":
-                            while True:
-                                num_of_days = input("Days to pospone: ")
-                                if num_of_days.isdecimal():
-                                    item.pospone(int(num_of_days))
-                                    break
-                                else:
-                                    print("\nInvalid input\n")
+                        break
+                    case "d" | "D":
+                        item.end_material()
+                        break
+                    case "e" | "E":
+                        item.pospone(1)
+                        daily_queue.current_number = len(daily_queue)
+                        break
+                    case _:
+                        print("\nInvalid input\n")
+                        continue
+        elif isinstance(item, extract.Extract):
+            os.system("cls|clear")
+            item.edit_extract()
+            os.system("cls|clear")
+            while True:
+                some_options = input("Select an option: \n"
+                                     + "    (a) Mark as reviewed\n"
+                                     + "    (b) Edit again\n"
+                                     + "    (c) Pospone X days\n"
+                                     + "    (d) Mark as ended/suspended\n"
+                                     + "Enter: ")
+                match some_options:
+                    case "a":
+                        while True:
+                            punctuation = input(
+                                "\nEnter your punctuation (0 to reset the schedule, 1 to keep spacing): ")
+                            if punctuation.isdecimal():
+                                break
+                            else:
+                                print("\nInvalid input\n")
                                 continue
-                            break
-                        case "d" | "D":
-                            item.end_material()
-                            break
-                        case "e" | "E":
-                            item.pospone(1)
-                            daily_queue.current_number = len(daily_queue)
-                            break
-                        case _:
-                            print("\nInvalid input\n")
-                            continue
-            elif isinstance(item, extract.Extract):
-                os.system("cls|clear")
-                item.edit_extract()
-                os.system("cls|clear")
-                while True:
-                    some_options = input("Select an option: \n"
-                                         + "    (a) Mark as reviewed\n"
-                                         + "    (b) Edit again\n"
-                                         + "    (c) Pospone X days\n"
-                                         + "    (d) Mark as ended/suspended\n"
-                                         + "Enter: ")
-                    match some_options:
-                        case "a":
-                            while True:
-                                punctuation = input(
-                                    "\nEnter your punctuation (0 to reset the schedule, 1 to keep spacing): ")
-                                if punctuation.isdecimal():
-                                    break
-                                else:
-                                    print("\nInvalid input\n")
-                                    continue
-                            item.review_extract(int(punctuation))
-                            break
-                        case "b":
-                            item.edit_extract()
-                            os.system("cls|clear")
-                            continue
-                        case "c":
-                            while True:
-                                options = input("Days to pospone: ")
-                                if options.isdecimal():
-                                    break
-                                else:
-                                    print("\nInvalid input\n")
-                                    continue
-                            item.pospone_extract(int(num_of_days))
-                            pass
-                        case "d":
-                            item.end_extract()
-                            break
-                        case _:
-                            print("\nInvalid input\n")
-                            continue
+                        item.review_extract(int(punctuation))
+                        break
+                    case "b":
+                        item.edit_extract()
+                        os.system("cls|clear")
+                        continue
+                    case "c":
+                        while True:
+                            options = input("Days to pospone: ")
+                            if options.isdecimal():
+                                break
+                            else:
+                                print("\nInvalid input\n")
+                                continue
+                        item.pospone_extract(int(num_of_days))
+                        pass
+                    case "d":
+                        item.end_extract()
+                        break
+                    case _:
+                        print("\nInvalid input\n")
+                        continue
         daily_queue.consume_one_item()
         continue
 
