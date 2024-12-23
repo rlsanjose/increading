@@ -45,9 +45,9 @@ def start_session():
                     some_options = input(
                         "Select option: \n"
                         + "    (a) Mark as reviewed\n"
-                        + "    (b) Add new extract"
+                        + "    (b) Add new extract\n"
                         + "    (c) Pospone material\n"
-                        + "    (d) Mark as ended"
+                        + "    (d) Mark as ended\n"
                         + "    (e) Interrupt here\n"
                         + "Enter: "
                     )
