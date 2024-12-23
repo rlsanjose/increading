@@ -1,72 +1,144 @@
-import datetime, extractlist
+import database
+import file_manager
+import datetime
+import schedule
+
 
 class Material:
 
-    def __init__(self, material_id, type, name, author, path, priority_percentage, next_date, a_factor):
+    def __init__(
+        self,
+        material_id,
+        name,
+        author,
+        path,
+        bookmark,
+        extracts_dir,
+        extracts_file_path,
+        review_date,
+        due_date,
+        number_of_reviews,
+        interval_to_next_review,
+        a_factor,
+        priority_percentage,
+        is_ended,
+    ):
+
         self.id = material_id
-        self.bookmark = ""
-        self.type = type
         self.name = name
         self.author = author
-        self.path = path
-        self.priority_percentage = priority_percentage
-    #TODO:    self.priority_num 
-    # Not sure if we need a priority_num. It's just its index in priority queue.
-    # Doesn't even need that field in the db
-        self.repetition_interval = 1
-        self.a_factor = a_factor
-        self.extracts = []
-        self.extract_list =""
-        # Change: is better to save the date, not the resting days
-        # self.days_to_next = 1
-        # self.days_since_last = 0
-        self.date_of_next = next_date
-
-    def set_bookmark(self, bookmark):
         self.bookmark = bookmark
+        self.path = path
+        # The next paths are relative paths to the materials directory.
+        # Pass empty strings when creating new material
+        if extracts_dir == "":
+            self.extracts_dir = (self.author + "_" +
+                                 self.name).replace(" ", "-")
+        else:
+            self.extracts_dir = extracts_dir
 
-    def change_name(self, new):
-        self.name = new
+        if extracts_file_path == "":
+            self.extracts_file_path = (
+                self.extracts_dir + "/" + self.extracts_dir + ".md"
+            )
+        else:
+            self.extracts_file_path = extracts_file_path
 
-    def change_author(self, new):
-        self.author = new
+        # Date format: string as ISO 8601
+        self.review_date = review_date
+        self.due_date = due_date
+        self.number_of_reviews = number_of_reviews
+        self.interval_to_next_review = interval_to_next_review
+        self.a_factor = a_factor
+        self.priority_percentage = priority_percentage
 
-# TODO: this also needs to change: we are not getting the numbers of days left but the date
-    #def pospone_material(self, new):
-        #self.days_to_next = new
+        # Is_ended is 0 if it is not ended, and 1 if it is
+        self.is_ended = is_ended
 
-    def change_interval(self, new):
-        self.repetition_interval = new
+    # TODO: you create the extract from the material, but then you create the
+    # file from the extract
 
-    def change_a_factor(self, new):
-        self.a_factor = new
-    
-    # TODO: change_priority: change priority index by checking the priority queue
-    
-    def change_priority(self, new):
-        self.priority_percentage = new
-        # After this, it is necessary to call the order_list method
-        # TODO: change also in the priority queue
-        # self.priority_num
+    # This method groups the necessary methods to generate the material
+    # directory and extracts file when creating a new material.
+    def create_material_dirs_and_files(self):
+        fm = file_manager.FileManager()
+        # We assume there already is a config file
+        fm.retrieve_extract_path()
+        # Create the directory
+        new_extracts_dir = fm.create_singular_directory(self)
+        if new_extracts_dir != self.extracts_dir:
+            self.extracts_dir = new_extracts_dir
+            # Update the database to set the new path
+            db = database.Database(fm)
+            db.update_material_extracts_dir(self)
+        # Create the extract list file
+        fm.create_extract_list_file(self)
+        return
 
-    # TODO: The next is not correct. Needs a rethinking of the problem
-    # update interval after a repetition
-    # def update_interval(self):
-    #     self.repetition_interval *= self.a_factor
+    def store_in_database(self):
+        fm = file_manager.FileManager()
+        db = database.Database(fm)
+        newid = db.insert_material(self)
+        self.id = newid
+        return
 
-    # This is not correct
-    # def next_interval(self):
-    #     self.days_to_next = self.repetition_interval * self.a_factor
+    """
+        When creating a new material, I will call the next static method to
+        get what I need to asign to review and due date = tomorrow. (In case
+        the user want to pospone, it can be done later.) After that, I will
+        call the constructor with those values. Then, I will call
+        `add_new_material` to create the dirs and save in the db.
+    """
 
-    # def days_passing(self, days):
-    #     self.days_to_next -= days
-    #     if self.days_to_next > 0:
-    #         self.days_to_next = 0
+    @staticmethod
+    def get_first_date():
+        return (datetime.date.today() + datetime.timedelta(1)).isoformat()
 
-    # def add_extract(self, extract):
-    #     self.extracts.append(extract)
+    def add_new_material(self):
+        # Create dir and file
+        self.create_material_dirs_and_files()
+        # Store in database
+        self.store_in_database()
+        return
 
-    def create_extract_list (self):
-        self.extract_list = extractlist.Extract_list(self)
-        
-    
+    def review_material(self, new_bookmark: str):
+        # Set new bookmark
+        self.bookmark = new_bookmark
+        # Update database: bookmark
+        fm = file_manager.FileManager()
+        db = database.Database(fm)
+        db.update_material_bookmark(self)
+        # Set new review date
+        self.review_date = datetime.date.today().isoformat()
+        # Set due date and new interval
+        (new_interval, new_due_date) = schedule.Scheduler.review(
+            self.review_date, self.a_factor, self.interval_to_next_review, 1)
+        self.due_date = new_due_date
+        self.interval_to_next_review = new_interval
+        # Update database: review and due date
+        db.update_material_review_due_dates(self)
+        db.update_material_interval_to_next_review(self)
+        # Add a review
+        self.number_of_reviews += 1
+        db.update_material_number_of_reviews(self)
+        return
+
+    def pospone(self, num_of_days: int = 1):
+        interval = datetime.timedelta(num_of_days)
+        actual_date = datetime.date.today()
+        next_date = actual_date + interval
+        self.due_date = next_date.isoformat()
+        # Update db
+        fm = file_manager.FileManager()
+        db = database.Database(fm)
+        db.update_material_review_due_dates(self)
+        return
+
+    def end_material(self):
+        self.review_date = datetime.date.today().isoformat()
+        fm = file_manager.FileManager()
+        db = database.Database(fm)
+        db.update_material_review_due_dates(self)
+        self.is_ended = 1
+        db.update_material_is_ended(self)
+        return
