@@ -1,4 +1,6 @@
 import priorityqueue
+import file_manager
+import database
 import dailyqueue
 import material
 import extract
@@ -222,7 +224,8 @@ while True:
     (a) Start session\n\
     (b) Add material\n\
     (c) See Priority List\n\
-    (e) Exit\n"
+    (e) ¿First time? Create directories, config file and database\n\
+    (f) Exit\n"
 
     option = input(text)
 
@@ -237,6 +240,29 @@ while True:
             see_queue()
             input("\n(press enter)\n")
         case "e" | "E":
+            fm = file_manager.FileManager()
+            if not fm.check_user_config_dir():
+                fm.create_user_config_dir()
+                print("\nConfig dir created")
+            if not fm.check_config_file():
+                fm.create_config_file()
+                print("\nConfig file created")
+            if not fm.check_user_data_dir():
+                fm.create_user_data_dir()
+                print("\nData dir created")
+            if not fm.extracts_directory_exists():
+                fm.create_extracts_directory()
+                print("\nExtracts dir created")
+            db = database.Database(fm)
+            con, cur = db.connect_database()
+            con.close()
+            print("\nDatabase created")
+            # Create tables
+            db.create_tables()
+            print("\nTables created")
+            continue
+
+        case "f" | "F":
             break
         case _:
             a = input("\nError: invalid. Press enter\n")

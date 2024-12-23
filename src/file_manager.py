@@ -77,14 +77,14 @@ class FileManager:
         return new_path.exists()
 
     def check_user_data_dir(self):
-        return self.user_data_dir.exists()
+        return os.path.exists(self.user_data_dir)
 
     def create_user_data_dir(self):
         self.create_directory(self.user_data_dir)
         return
 
     def check_user_config_dir(self):
-        return self.user_config_dir.exists()
+        return os.path.exists(self.user_config_dir)
 
     def create_user_config_dir(self):
         self.create_directory(self.user_config_dir)

@@ -9,9 +9,7 @@ class Database:
         self.db_path = fm.db_path
 
     def connect_database(self):
-        # TODO: edit again to make it correct
-        # con = sqlite3.connect(self.db_path)
-        con = sqlite3.connect("new.db")
+        con = sqlite3.connect(self.db_path)
         cursor = con.cursor()
         return con, cursor
 
