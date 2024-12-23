@@ -47,6 +47,8 @@ class Extract:
             )
             # TODO: Is this path relative or absolute? Should be relative
             self.path = material_extracts_dir + "/" + instant_str + ".md"
+        else:
+            self.path = path
 
         self.review_date = review_date
         self.due_date = due_date
