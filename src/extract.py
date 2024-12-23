@@ -78,8 +78,8 @@ class Extract:
         # Update database
         fm = file_manager.FileManager()
         db = database.Database(fm)
-        db.update_extract_review_and_due_dates()
-        db.update_extract_interval_to_next_review()
+        db.update_extract_review_and_due_dates(self)
+        db.update_extract_interval_to_next_review(self)
         db.update_extract_number_of_repetitions(self)
         return
 

@@ -34,11 +34,15 @@ class Material:
         if extracts_dir == "":
             self.extracts_dir = (self.author + "_" +
                                  self.name).replace(" ", "-")
+        else:
+            self.extracts_dir = extracts_dir
 
         if extracts_file_path == "":
             self.extracts_file_path = (
                 self.extracts_dir + "/" + self.extracts_dir + ".md"
             )
+        else:
+            self.extracts_file_path = extracts_file_path
 
         # Date format: string as ISO 8601
         self.review_date = review_date
