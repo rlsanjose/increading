@@ -24,7 +24,11 @@ def start_session():
         return
     daily_queue.make_actual_list()
 
+    is_interrupted = False
+
     for item in daily_queue.actual_list:
+        if is_interrupted:
+            break
 
         os.system("cls|clear")
         # while True:
@@ -111,6 +115,7 @@ def start_session():
                     case "e" | "E":
                         item.pospone(1)
                         # daily_queue.current_number = len(daily_queue)
+                        is_interrupted = True
                         break
                     case _:
                         print("\nInvalid input\n")

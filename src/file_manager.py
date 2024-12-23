@@ -132,7 +132,7 @@ class FileManager:
 
     def create_extract_list_file(self, material: material.Material):
         new_path = self.extracts_path + "/" + material.extracts_file_path
-        first_line = "# " + material.name + ", " + material.author
+        first_line = material.name + "\n\n" + material.author
         try:
             create_file = open(new_path, "x")
             create_file.close()
@@ -140,7 +140,7 @@ class FileManager:
             pass
         with open(new_path, "a") as f:
             f.write(first_line)
-            f.write("\n")
+            f.write("\n\n")
         return
 
     def concat_extract_to_list(
