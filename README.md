@@ -20,8 +20,8 @@ list with some ideas.
 - Sqlite3.
 - Vim.
 - A Linux system that is "XDG Base Directory" compliant. In this case,
-the app will use `~/.local/share/` for the user data and `~/.config/`
-for the config file.
+the app will use `~/.local/share/` for the user data (sqlite database)
+and `~/.config/` for the config file.
 
 ## Installation
 
